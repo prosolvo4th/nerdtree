@@ -70,7 +70,7 @@ function! s:Path.changeToDir()
     try
         execute "cd " . dir
         call nerdtree#echo("CWD is now: " . getcwd())
-        if exists('g:nerdtree_show_git_status') && g:nerdtree_show_git_status == 1
+        if g:nerdtree_show_git_status
             call plugin:NerdGitStatusRefresh()
         endif
     catch
@@ -521,7 +521,7 @@ endfunction
 function! s:Path.refresh()
     call self.readInfoFromDisk(self.str())
     call self.cacheDisplayString()
-    if exists('g:nerdtree_show_git_status') && g:nerdtree_show_git_status == 1 
+    if g:nerdtree_show_git_status
         call plugin:NerdGitStatusRefresh()
     endif
 endfunction

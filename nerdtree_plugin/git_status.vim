@@ -3,6 +3,10 @@ if exists('g:loaded_nerdtree_git_status')
 endif
 let g:loaded_nerdtree_git_status = 1
 
+if !exists('g:nerdtree_show_git_status')
+    let g:nerdtree_show_git_status = 1
+endif
+
 function! plugin:NerdGitStatus()
     if !exists('g:nerdtree_cached_git_status') || g:nerdtree_cached_git_status == '' 
         let g:nerdtree_cached_git_status = system("git status -s")

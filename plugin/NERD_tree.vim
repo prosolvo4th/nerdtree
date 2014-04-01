@@ -204,7 +204,7 @@ endfunction
 " SECTION: Post Source Actions {{{1
 call nerdtree#postSourceActions()
 
-if exists('g:nerdtree_show_git_status') && g:nerdtree_show_git_status == 1 
+if g:nerdtree_show_git_status 
     call plugin:NerdGitStatus()
 endif
 

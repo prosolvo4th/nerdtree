@@ -6,7 +6,7 @@ New Feature
 
 Add git status support for NERDTree.You can indicate a file's git status, quickly see which files you have staged, unstaged and modified, or deleted in your project without any extra work.
 
-Add `let g:nerdtree_show_git_status = 1` to your vimrc.
+Add `let g:nerdtree_show_git_status = 0` to your vimrc to be disable.
 
 ![screenshot](screenshot/nerd-git-status.png)
 

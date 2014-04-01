@@ -84,7 +84,7 @@ endfunction
 "a string that can be used in the view to represent this node
 function! s:TreeFileNode.displayString()
     let ds = self.path.displayString()
-    if exists('g:nerdtree_show_git_status') && g:nerdtree_show_git_status == 1
+    if g:nerdtree_show_git_status 
         let ds = plugin:GetGitStatusPrefix(self.path) . ds
     endif
     return ds
@@ -299,7 +299,7 @@ function! s:TreeFileNode.makeRoot()
         exec "cd " . b:NERDTreeRoot.path.str({'format': 'Edit'})
     endif
 
-    if exists('g:nerdtree_show_git_status') && g:nerdtree_show_git_status == 1 
+    if g:nerdtree_show_git_status 
         call plugin:NerdGitStatusRefresh()
     endif
 
