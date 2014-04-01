@@ -61,6 +61,7 @@ endfunction
 
 "FUNCTION: Path.changeToDir() {{{1
 function! s:Path.changeToDir()
+    echomsg 'changeToDir'
     let dir = self.str({'format': 'Cd'})
     if self.isDirectory ==# 0
         let dir = self.getParent().str({'format': 'Cd'})
@@ -69,6 +70,9 @@ function! s:Path.changeToDir()
     try
         execute "cd " . dir
         call nerdtree#echo("CWD is now: " . getcwd())
+        if exists('g:nerdtree_show_git_status') && g:nerdtree_show_git_status == 1
+            call plugin:NerdGitStatusRefresh()
+        endif
     catch
         throw "NERDTree.PathChangeError: cannot change CWD to " . dir
     endtry
@@ -517,6 +521,9 @@ endfunction
 function! s:Path.refresh()
     call self.readInfoFromDisk(self.str())
     call self.cacheDisplayString()
+    if exists('g:nerdtree_show_git_status') && g:nerdtree_show_git_status == 1 
+        call plugin:NerdGitStatusRefresh()
+    endif
 endfunction
 
 "FUNCTION: Path.rename() {{{1
