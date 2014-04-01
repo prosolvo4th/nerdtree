@@ -20,7 +20,7 @@ Now it's is still under development, there may be a lot of bug. Welcome your pul
 TODO
 ----
 
-* add key mapping, default: `]c` to next change, `[c` to prev chang.
+* ~~add key mapping, default: `]c` to next change, `[c` to prev chang.~~
 
 * refresh git status realtime.
 
