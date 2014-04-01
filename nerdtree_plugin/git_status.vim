@@ -50,9 +50,16 @@ function! plugin:trimDoubleDot(path)
     return s:toReturn
 endfunction
 
+function! plugin:filteRenameStatus(path)
+    let s:toReturn = a:path
+    let s:toReturn = substitute(s:toReturn, '.* -> ', "", "")
+    return s:toReturn
+endfunction
+
 function! plugin:GetGitStatusPrefix(path)
     for status in g:nerdtree_git_status_split
         let s:reletaivePath = substitute(status, '...', "", "")
+        let s:reletaivePath = plugin:filteRenameStatus(s:reletaivePath)
         let s:absolutePath = g:NERDTreePath.AbsolutePathFor(s:reletaivePath)
         let s:absolutePath = plugin:trimDoubleDot(s:absolutePath)
         let s:position = stridx(s:absolutePath, a:path.str())
