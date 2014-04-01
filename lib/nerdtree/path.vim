@@ -521,6 +521,9 @@ endfunction
 function! s:Path.refresh()
     call self.readInfoFromDisk(self.str())
     call self.cacheDisplayString()
+    if exists('g:nerdtree_show_git_status') && g:nerdtree_show_git_status == 1 
+        call plugin:NerdGitStatusRefresh()
+    endif
 endfunction
 
 "FUNCTION: Path.rename() {{{1
