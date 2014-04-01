@@ -4,9 +4,18 @@ The NERD Tree
 New Feature
 ----------
 
-Add git status support for NERDTree.
+Add git status support for NERDTree.You can indicate a file's git status, quickly see which files you have staged, unstaged and modified, or deleted in your project without any extra work.
 
 ![screenshot](screenshot/nerd-git-status.png)
+
+NOTE
+----
+
+Now it's is still under development, there may be a lot of bug. Welcome your pull request!
+
+**Trouble:** As I'm not very familiar with the results of `git status -s` command, so the indicator may be wrong. 
+
+**Happy Coding!!!!**
 
 Intro
 -----
