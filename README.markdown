@@ -1,6 +1,13 @@
 The NERD Tree
 =============
 
+New Feature
+----------
+
+Add git status support for NERDTree.
+
+![screenshot](screenshot/nerd-git-status.png)
+
 Intro
 -----
 
