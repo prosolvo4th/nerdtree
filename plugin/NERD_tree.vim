@@ -135,6 +135,11 @@ call s:initVariable("g:NERDTreeMapUpdir", "u")
 call s:initVariable("g:NERDTreeMapUpdirKeepOpen", "U")
 call s:initVariable("g:NERDTreeMapCWD", "CD")
 
+" git status {{{
+    call s:initVariable("g:NERDTreeMapNextHunk", "]c")
+    call s:initVariable("g:NERDTreeMapPrevHunk", "[c")
+" }}}
+
 "SECTION: Load class files{{{2
 call nerdtree#loadClassFiles()
 
