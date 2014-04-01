@@ -4,15 +4,15 @@ endif
 let g:loaded_nerdtree_git_status = 1
 
 function! plugin:NerdGitStatus()
-    if !exists('g:nerd_cached_git_status') || g:nerd_cached_git_status == '' 
-        let g:nerd_cached_git_status = system("git status -s")
+    if !exists('g:nerdtree_cached_git_status') || g:nerdtree_cached_git_status == '' 
+        let g:nerdtree_cached_git_status = system("git status -s")
     endif
-    let g:nerd_git_status_split = split(g:nerd_cached_git_status, '\n')
+    let g:nerdtree_git_status_split = split(g:nerdtree_cached_git_status, '\n')
 endfunction
 
 function! plugin:NerdGitStatusRefresh()
-    let g:nerd_cached_git_status = ''
-    let g:nerd_git_status_split = {}
+    let g:nerdtree_cached_git_status = ''
+    let g:nerdtree_git_status_split = []
     call plugin:NerdGitStatus()
 endfunction
 
@@ -40,28 +40,22 @@ function! plugin:GetStatusIndicator(us, them)
     endif
 endfunction
 
+function! plugin:trimDoubleDot(path)
+    let s:toReturn = a:path
+    let s:find = stridx(s:toReturn, '/../')
+    while s:find != -1 
+        let s:toReturn = substitute(s:toReturn, '/[^/]\+/\.\./', "/", "")
+        let s:find = stridx(s:toReturn, '/../')
+    endwhile
+    return s:toReturn
+endfunction
+
 function! plugin:GetGitStatusPrefix(path)
-    let s:displayString = a:path.displayString()
-
-    "remove the tree parts and the leading space
-    let s:displayString = substitute (s:displayString, nerdtree#treeMarkupReg(),"","")
-
-    "strip off any read only flag
-    let s:displayString = substitute (s:displayString, ' \[RO\]', "","")
-
-    "strip off any bookmark flags
-    let s:displayString = substitute (s:displayString, ' {[^}]*}', "","")
-
-    "strip off any executable flags
-    let s:displayString = substitute (s:displayString, '*\ze\($\| \)', "","")
-
-    "strip off any git status flags
-    let s:displayString = substitute(s:displayString, '\[.*\]', "", "")
-
-    for status in g:nerd_git_status_split
+    for status in g:nerdtree_git_status_split
         let s:reletaivePath = substitute(status, '...', "", "")
-        " echomsg a:path.AbsolutePathFor(s:reletaivePath)
-        let s:position = stridx(status, s:displayString)
+        let s:absolutePath = g:NERDTreePath.AbsolutePathFor(s:reletaivePath)
+        let s:absolutePath = plugin:trimDoubleDot(s:absolutePath)
+        let s:position = stridx(s:absolutePath, a:path.str())
         if s:position != -1 
             if a:path.isDirectory 
                 return "[✗]"
