@@ -6,7 +6,6 @@ New Feature
 
 Add git status support for NERDTree.You can indicate a file's git status, quickly see which files you have staged, unstaged and modified, or deleted in your project without any extra work.
 
-Add `let g:nerdtree_show_git_status = 0` to your vimrc to be disable.
 
 ![screenshot](screenshot/nerd-git-status.png)
 
@@ -21,10 +20,20 @@ Indicators
 * ✖ : Deleted (This indicator can't be shown, as NERDTree doesn't display deleted files. I have no prefect idea to solve this problem currently.)
 * ✗ : Dirty (Only for directory)
 
+Key mapping
+-----------
+
+As the same as GitGutter plugin:
+
+* `]c` : Jump to next indicator
+* `[c` : Jump to prev indicator
+
 NOTE
 ----
 
 Now it's is still under development, there may be a lot of bug. Welcome your pull request!
+
+Add `let g:nerdtree_show_git_status = 0` to your vimrc to be disable.
 
 WARNING
 -------
