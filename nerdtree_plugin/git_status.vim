@@ -24,7 +24,6 @@ function! plugin:NERDTreeGitStatusRefresh()
 endfunction
 
 function! s:NERDTreeGetGitStatusIndicator(us, them)
-    echomsg a:us . a:them
     if a:us == '?' && a:them == '?'
         return '✭'
     elseif a:us == ' ' && a:them == 'M'
