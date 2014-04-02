@@ -26,7 +26,7 @@ syn match NERDTreeGitStatusRenamed #➜#
 syn match NERDTreeGitStatusUnmerged #═#
 syn match NERDTreeGitStatusUntracked #✭#
 syn match NERDTreeGitStatusDirDirty #✗#
-syn match NERDTreeGitStatusDirty #\[[^{RO}]\+\]# contains=NERDTreeGitStatusAdded,NERDTreeGitStatusModified,NERDTreeGitStatusUnmodified,NERDTreeGitStatusRenamed,NERDTreeGitStatusUnmerged,NERDTreeGitStatusUntracked,NERDTreeGitStatusDirDirty
+syn match NERDTreeGitStatusDirty #\[[^{RO}]\]# contains=NERDTreeGitStatusAdded,NERDTreeGitStatusModified,NERDTreeGitStatusUnmodified,NERDTreeGitStatusRenamed,NERDTreeGitStatusUnmerged,NERDTreeGitStatusUntracked,NERDTreeGitStatusDirDirty
 
 "quickhelp syntax elements
 syn match NERDTreeHelpKey #" \{1,2\}[^ ]*:#hs=s+2,he=e-1

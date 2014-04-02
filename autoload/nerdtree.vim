@@ -947,7 +947,7 @@ function! nerdtree#stripMarkupFromLine(line, removeLeadingSpaces)
     let line = substitute (line, '*\ze\($\| \)', "","")
 
     "strip off any git status flags
-    let line = substitute(line, '\[.*\]', "", "")
+    let line = substitute(line, '\[[^{RO}]\]', "", "")
 
     let wasdir = 0
     if line =~# '/$'
