@@ -23,7 +23,7 @@ Indicators
 Key mapping
 -----------
 
-As the same as GitGutter plugin:
+As the same as [GitGutter](https://github.com/airblade/vim-gitgutter) plugin:
 
 * `]c` : Jump to next indicator
 * `[c` : Jump to prev indicator
