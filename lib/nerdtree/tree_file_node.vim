@@ -85,7 +85,7 @@ endfunction
 function! s:TreeFileNode.displayString()
     let ds = self.path.displayString()
     if g:nerdtree_show_git_status 
-        let ds = plugin:GetGitStatusPrefix(self.path) . ds
+        let ds = plugin:NERDTreeGetGitStatusPrefix(self.path) . ds
     endif
     return ds
 endfunction
@@ -297,10 +297,6 @@ function! s:TreeFileNode.makeRoot()
     "change dir to the dir of the new root if instructed to
     if g:NERDTreeChDirMode ==# 2
         exec "cd " . b:NERDTreeRoot.path.str({'format': 'Edit'})
-    endif
-
-    if g:nerdtree_show_git_status 
-        call plugin:NerdGitStatusRefresh()
     endif
 
     silent doautocmd User NERDTreeNewRoot

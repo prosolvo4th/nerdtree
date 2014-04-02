@@ -851,6 +851,11 @@ function! nerdtree#renderView()
     call setline(line(".")+1, header)
     call cursor(line(".")+1, col("."))
 
+    "refresh git status
+    if g:nerdtree_show_git_status
+        call plugin:NERDTreeGitStatusRefresh()
+    endif
+
     "draw the tree
     let old_o = @o
     let @o = b:NERDTreeRoot.renderToString()

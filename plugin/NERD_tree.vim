@@ -135,10 +135,8 @@ call s:initVariable("g:NERDTreeMapUpdir", "u")
 call s:initVariable("g:NERDTreeMapUpdirKeepOpen", "U")
 call s:initVariable("g:NERDTreeMapCWD", "CD")
 
-" git status {{{
-    call s:initVariable("g:NERDTreeMapNextHunk", "]c")
-    call s:initVariable("g:NERDTreeMapPrevHunk", "[c")
-" }}}
+call s:initVariable("g:NERDTreeMapNextHunk", "]c")
+call s:initVariable("g:NERDTreeMapPrevHunk", "[c")
 
 "SECTION: Load class files{{{2
 call nerdtree#loadClassFiles()
@@ -208,10 +206,6 @@ function! NERDTreeCWD()
 endfunction
 " SECTION: Post Source Actions {{{1
 call nerdtree#postSourceActions()
-
-if g:nerdtree_show_git_status 
-    call plugin:NerdGitStatus()
-endif
 
 "reset &cpo back to users setting
 let &cpo = s:old_cpo
