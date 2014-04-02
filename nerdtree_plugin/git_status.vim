@@ -7,19 +7,6 @@ if !exists('g:nerdtree_show_git_status')
     let g:nerdtree_show_git_status = 1
 endif
 
-function! plugin:NerdGitStatus()
-    if !exists('g:nerdtree_cached_git_status') || g:nerdtree_cached_git_status == '' 
-        let g:nerdtree_cached_git_status = system("git status -s")
-    endif
-    let g:nerdtree_git_status_split = split(g:nerdtree_cached_git_status, '\n')
-endfunction
-
-function! plugin:NerdGitStatusRefresh()
-    let g:nerdtree_cached_git_status = ''
-    let g:nerdtree_git_status_split = []
-    call plugin:NerdGitStatus()
-endfunction
-
 function! plugin:GetStatusIndicator(us, them)
     if a:us == '?'
         return '✭'
@@ -44,37 +31,16 @@ function! plugin:GetStatusIndicator(us, them)
     endif
 endfunction
 
-function! plugin:trimDoubleDot(path)
-    let s:toReturn = a:path
-    let s:find = stridx(s:toReturn, '/../')
-    while s:find != -1 
-        let s:toReturn = substitute(s:toReturn, '/[^/]\+/\.\./', "/", "")
-        let s:find = stridx(s:toReturn, '/../')
-    endwhile
-    return s:toReturn
-endfunction
-
-function! plugin:filteRenameStatus(path)
-    let s:toReturn = a:path
-    let s:toReturn = substitute(s:toReturn, '.* -> ', "", "")
-    return s:toReturn
-endfunction
-
 function! plugin:GetGitStatusPrefix(path)
-    for status in g:nerdtree_git_status_split
-        let s:reletaivePath = substitute(status, '...', "", "")
-        let s:reletaivePath = plugin:filteRenameStatus(s:reletaivePath)
-        let s:absolutePath = g:NERDTreePath.AbsolutePathFor(s:reletaivePath)
-        let s:absolutePath = plugin:trimDoubleDot(s:absolutePath)
-        let s:position = stridx(s:absolutePath, a:path.str())
-        if s:position != -1 
-            if a:path.isDirectory 
-                return "[✗]"
-            endif
-            let s:indicator = plugin:GetStatusIndicator(status[0], status[1])
-            return "[" . s:indicator . "]"
+    let git_statuses = system('git status -s ' . a:path.str())
+    let git_statuses_split = split(git_statuses, "\n")
+    if git_statuses_split != []
+        if a:path.isDirectory
+            return "[✗]"
         endif
-    endfor
-
+        let status = git_statuses_split[0]
+        let indicator = plugin:GetStatusIndicator(status[0], status[1])
+        return "[" . indicator . "]"
+    endif
     return ""
 endfunction
