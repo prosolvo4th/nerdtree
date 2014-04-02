@@ -17,6 +17,11 @@ Now it's is still under development, there may be a lot of bug. Welcome your pul
 
 **Trouble:** As I'm not very familiar with the results of `git status -s` command, so the indicator may be wrong. 
 
+WARNING
+-------
+
+It has **NOT** been tested in Windows.
+
 TODO
 ----
 
