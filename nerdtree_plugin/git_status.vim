@@ -23,25 +23,20 @@ function! plugin:NERDTreeGitStatusRefresh()
     call plugin:NERDTreeCacheGitStatus()
 endfunction
 
-function! s:NERDTreeGetStatusIndicator(us, them)
-    if a:us == '?'
+function! s:NERDTreeGetGitStatusIndicator(us, them)
+    echomsg a:us . a:them
+    if a:us == '?' && a:them == '?'
         return '✭'
+    elseif a:us == ' ' && a:them == 'M'
+        return '✹'
+    elseif match(a:us, '[MAC]') != -1
+        return '✚'
     elseif a:us == 'R'
         return '➜'
-    elseif a:us == 'D'
-        return '✖'
-    elseif a:us == 'U' || a:them == 'U'
+    elseif a:us == 'U' || a:them == 'U' || a:us == 'A' && a:them == 'A' || a:us == 'D' && a:them == 'D'
         return '═'
-    elseif a:us == 'M'
-        return '✹'
-    elseif a:us == 'A'
-        return '✚'
-    elseif a:us == ' '
-        if a:them == 'M'
-            return '✹'
-        elseif a:them == 'D'
-            return '✖'
-        endif
+    elseif a:them == 'D'
+        return '✖'
     else
         return '*'
     endif
@@ -74,7 +69,7 @@ function! plugin:NERDTreeGetGitStatusPrefix(path)
             if a:path.isDirectory 
                 return "[✗]"
             endif
-            let s:indicator = s:NERDTreeGetStatusIndicator(status[0], status[1])
+            let s:indicator = s:NERDTreeGetGitStatusIndicator(status[0], status[1])
             return "[" . s:indicator . "]"
         endif
     endfor
