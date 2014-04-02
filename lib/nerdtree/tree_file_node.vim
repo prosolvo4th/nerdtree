@@ -84,7 +84,7 @@ endfunction
 "a string that can be used in the view to represent this node
 function! s:TreeFileNode.displayString()
     let ds = self.path.displayString()
-    if g:nerdtree_show_git_status 
+    if g:NERDTreeShowGitStatus 
         let ds = plugin:NERDTreeGetGitStatusPrefix(self.path) . ds
     endif
     return ds

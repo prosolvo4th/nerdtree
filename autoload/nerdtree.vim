@@ -130,11 +130,6 @@ function! nerdtree#createDefaultBindings()
     call NERDTreeAddKeyMap({ 'key': g:NERDTreeMapOpenExpl, 'scope': "DirNode", 'callback': s."openExplorer" })
 
     call NERDTreeAddKeyMap({ 'key': g:NERDTreeMapDeleteBookmark, 'scope': "Bookmark", 'callback': s."deleteBookmark" })
-
-    " git status {{{
-        call NERDTreeAddKeyMap({'key': g:NERDTreeMapNextHunk, 'scope': "Node", 'callback': s."jumpToNextHunk"})
-        call NERDTreeAddKeyMap({'key': g:NERDTreeMapPrevHunk, 'scope': "Node", 'callback': s."jumpToPrevHunk"})
-    " }}}
 endfunction
 
 " FUNCTION: nerdtree#deprecated(func, [msg]) {{{2
@@ -852,7 +847,7 @@ function! nerdtree#renderView()
     call cursor(line(".")+1, col("."))
 
     "refresh git status
-    if g:nerdtree_show_git_status
+    if g:NERDTreeShowGitStatus
         call plugin:NERDTreeGitStatusRefresh()
     endif
 
@@ -1217,22 +1212,6 @@ endfunction
 " FUNCTION: s:jumpToPrevSibling(node) {{{2
 function! s:jumpToPrevSibling(node)
     call nerdtree#jumpToSibling(a:node, 0)
-endfunction
-
-" FUNCTION: s:jumpToNextHunk(node) {{{2
-function! s:jumpToNextHunk(node)
-    let position = search('\[[^{RO}]\+\]', "")
-    if position
-        call nerdtree#echo("Jump to next hunk ")
-    endif
-endfunction
-
-" FUNCTION: s:jumpToPrevHunk(node) {{{2
-function! s:jumpToPrevHunk(node)
-    let position = search('\[[^{RO}]\+\]', "b")
-    if position 
-        call nerdtree#echo("Jump to prev hunk ")
-    endif
 endfunction
 
 " FUNCTION: nerdtree#openBookmark(name) {{{2

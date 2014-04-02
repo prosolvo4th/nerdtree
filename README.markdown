@@ -33,7 +33,7 @@ NOTE
 
 Now it's is still under development, there may be a lot of bug. Welcome your pull request!
 
-Add `let g:nerdtree_show_git_status = 0` to your vimrc to be disable.
+Add `let g:NERDTreeShowGitStatus = 0` to your vimrc to be disable.
 
 WARNING
 -------
