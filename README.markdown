@@ -10,12 +10,21 @@ Add `let g:nerdtree_show_git_status = 0` to your vimrc to be disable.
 
 ![screenshot](screenshot/nerd-git-status.png)
 
+Indicators
+----------
+
+* ✭ : Untracked
+* ✹ : Modified in the working tree
+* ✚ : Staged in the index (Exclude Renamed status)
+* ➜ : Renamed
+* ═ : Unmerged
+* ✖ : Deleted (This indicator can't be shown, as NERDTree doesn't display deleted files. I have no prefect idea to solve this problem currently.)
+* ✗ : Dirty (Only for directory)
+
 NOTE
 ----
 
 Now it's is still under development, there may be a lot of bug. Welcome your pull request!
-
-**Trouble:** As I'm not very familiar with the results of `git status -s` command, so the indicator may be wrong. 
 
 WARNING
 -------
@@ -25,7 +34,7 @@ It has **NOT** been tested in Windows.
 TODO
 ----
 
-* ~~add key mapping, default: `]c` to next change, `[c` to prev chang.~~
+* ~~add key mapping, default: `]c` to next change, `[c` to prev change.~~
 
 * refresh git status realtime.
 
