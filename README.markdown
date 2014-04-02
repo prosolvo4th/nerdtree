@@ -23,17 +23,23 @@ Indicators
 Key mapping
 -----------
 
-As the same as [GitGutter](https://github.com/airblade/vim-gitgutter) plugin:
+As the same as [GitGutter](https://github.com/airblade/vim-gitgutter) plugin default.
 
 * `]c` : Jump to next indicator
 * `[c` : Jump to prev indicator
+
+You can set `g:NERDTreeMapNextHunk` and `g:NERDTreeMapPrevHunk` variables to your prefer keys. e.g.
+
+`let g:NERDTreeMapNextHunk = ",n"`
+
+`let g:NERDTreeMapPrevHunk = ",p"`
 
 NOTE
 ----
 
 Now it's is still under development, there may be a lot of bug. Welcome your pull request!
 
-Add `let g:NERDTreeShowGitStatus = 0` to your vimrc to be disable.
+Add `let g:NERDTreeShowGitStatus = 0` in your vimrc to turn off this feature.
 
 WARNING
 -------
