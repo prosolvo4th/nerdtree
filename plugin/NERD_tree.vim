@@ -209,6 +209,10 @@ endfunction
 " SECTION: Post Source Actions {{{1
 call nerdtree#postSourceActions()
 
+if g:nerdtree_show_git_status 
+    call plugin:NerdGitStatus()
+endif
+
 "reset &cpo back to users setting
 let &cpo = s:old_cpo
 

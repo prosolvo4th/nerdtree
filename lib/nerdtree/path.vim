@@ -70,6 +70,9 @@ function! s:Path.changeToDir()
     try
         execute "cd " . dir
         call nerdtree#echo("CWD is now: " . getcwd())
+        if g:nerdtree_show_git_status
+            call plugin:NerdGitStatusRefresh()
+        endif
     catch
         throw "NERDTree.PathChangeError: cannot change CWD to " . dir
     endtry
@@ -518,6 +521,9 @@ endfunction
 function! s:Path.refresh()
     call self.readInfoFromDisk(self.str())
     call self.cacheDisplayString()
+    if g:nerdtree_show_git_status
+        call plugin:NerdGitStatusRefresh()
+    endif
 endfunction
 
 "FUNCTION: Path.rename() {{{1

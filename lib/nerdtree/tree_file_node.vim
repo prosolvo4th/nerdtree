@@ -299,6 +299,10 @@ function! s:TreeFileNode.makeRoot()
         exec "cd " . b:NERDTreeRoot.path.str({'format': 'Edit'})
     endif
 
+    if g:nerdtree_show_git_status 
+        call plugin:NerdGitStatusRefresh()
+    endif
+
     silent doautocmd User NERDTreeNewRoot
 endfunction
 
