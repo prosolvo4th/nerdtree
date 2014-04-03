@@ -15,24 +15,19 @@ if !exists('g:NERDTreeMapPrevHunk')
     let g:NERDTreeMapPrevHunk = "[c"
 endif
 
-" FUNCTION: plugin:NERDTreeCacheGitStatus() {{{2
-" cache the git status
-function! plugin:NERDTreeCacheGitStatus()
-    if !exists('g:NERDTreeCachedGitStatus') || g:NERDTreeCachedGitStatus == '' 
-        let g:NERDTreeCachedGitStatus = system("git status -s")
-    endif
-    let g:NERDTreeGitStatusSplit = split(g:NERDTreeCachedGitStatus, '\n')
-    if g:NERDTreeGitStatusSplit != [] && g:NERDTreeGitStatusSplit[0] == "fatal: Not a git repository (or any of the parent directories): .git"
-        let g:NERDTreeGitStatusSplit = []
-    endif
-endfunction
-
 " FUNCTION: plugin:NERDTreeGitStatusRefresh() {{{2
 " refresh cached git status
 function! plugin:NERDTreeGitStatusRefresh()
-    let g:NERDTreeCachedGitStatus = ''
-    let g:NERDTreeGitStatusSplit = []
-    call plugin:NERDTreeCacheGitStatus()
+    if !executable('git')
+        call nerdtree#echo("Please install git command first.")
+        return
+    endif
+
+    let statusStr = system("git status -s")
+    let g:NERDTreeCachedGitStatus = split(statusStr, '\n')
+    if g:NERDTreeCachedGitStatus != [] && g:NERDTreeCachedGitStatus[0] == "fatal: Not a git repository (or any of the parent directories): .git"
+        let g:NERDTreeCachedGitStatus = []
+    endif
 endfunction
 
 function! s:NERDTreeGetGitStatusIndicator(us, them)
@@ -71,9 +66,9 @@ endfunction
 
 " FUNCTION: plugin:NERDTreeGetGitStatusPrefix(path) {{{2
 " return the indicator of the path
-" Args: path 
+" Args: path
 function! plugin:NERDTreeGetGitStatusPrefix(path)
-    for status in g:NERDTreeGitStatusSplit
+    for status in g:NERDTreeCachedGitStatus
         let s:reletaivePath = substitute(status, '...', "", "")
         let s:reletaivePath = s:NERDTreeFiltRenameStatus(s:reletaivePath)
         let s:absolutePath = g:NERDTreePath.AbsolutePathFor(s:reletaivePath)
@@ -102,7 +97,7 @@ endfunction
 " FUNCTION: s:jumpToPrevHunk(node) {{{2
 function! s:jumpToPrevHunk(node)
     let position = search('\[[^{RO}]\+\]', "b")
-    if position 
+    if position
         call nerdtree#echo("Jump to prev hunk ")
     endif
 endfunction
