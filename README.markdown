@@ -6,7 +6,6 @@ New Feature
 
 Add git status support for NERDTree.You can indicate a file's git status, quickly see which files you have staged, unstaged and modified, or deleted in your project without any extra work.
 
-
 ![screenshot](screenshot/nerd-git-status.png)
 
 Indicators
@@ -34,12 +33,12 @@ You can set `g:NERDTreeMapNextHunk` and `g:NERDTreeMapPrevHunk` variables to you
 
 `let g:NERDTreeMapPrevHunk = ",p"`
 
-NOTE
-----
+Status Refresh
+--------------
 
-Now it's is still under development, there may be a lot of bug. Welcome your pull request!
+`Add`, `Delete`, `Move` and `Copy` actions through the `m` menu will refresh git status indicators automatically.
 
-Add `let g:NERDTreeShowGitStatus = 0` in your vimrc to turn off this feature.
+File modified, `stage` or `commit` actions through **vim-fugitive** plugin won't active the status refreshing, this is because that NERDTree itself doesn't support auto refreshing function. You should press `r` or `R` to refresh the tree view by yourself after these actions.
 
 WARNING
 -------
@@ -51,7 +50,7 @@ TODO
 
 * ~~add key mapping, default: `]c` to next change, `[c` to prev change.~~
 
-* refresh git status realtime.
+* ~~refresh git status realtime.~~ This feature is too heavy, I give up it.
 
 **Happy Coding!!!!**
 
