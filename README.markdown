@@ -6,7 +6,7 @@ New Feature
 
 Add git status support for NERDTree.You can indicate a file's git status, quickly see which files you have staged, unstaged and modified, or deleted in your project without any extra work.
 
-![screenshot](http://i.imgur.com/5uRP9Ad.gif?1)
+![Imgur](http://i.imgur.com/jSCwGjU.gif?1)
 
 Indicators
 ----------
