@@ -29,16 +29,36 @@ endif
 " FUNCTION: plugin:NERDTreeGitStatusRefresh() {{{2
 " refresh cached git status
 function! plugin:NERDTreeGitStatusRefresh()
+    let g:NERDTreeCachedGitFileStatus = {}
+    let g:NERDTreeCachedGitDirtyDir   = {}
+
     if !executable('git')
         call nerdtree#echo("Please install git command first.")
         return
     endif
 
     let statusStr = system("git status -s")
-    let g:NERDTreeCachedGitStatus = split(statusStr, '\n')
-    if g:NERDTreeCachedGitStatus != [] && g:NERDTreeCachedGitStatus[0] == "fatal: Not a git repository (or any of the parent directories): .git"
-        let g:NERDTreeCachedGitStatus = []
+    let statusSplit = split(statusStr, '\n')
+    if statusSplit != [] && statusSplit[0] == "fatal: Not a git repository (or any of the parent directories): .git"
+        let statusSplit = []
     endif
+    for status in statusSplit
+        " cache git status of files
+        let reletaivePath = substitute(status, '...', "", "")
+        let reletaivePath = s:NERDTreeFiltRenameStatus(reletaivePath)
+        let absolutePath  = g:NERDTreePath.AbsolutePathFor(reletaivePath)
+        let absolutePath  = s:NERDTreeTrimDoubleDot(absolutePath)
+        let indicator     = s:NERDTreeGetGitStatusIndicator(status[0], status[1])
+        let g:NERDTreeCachedGitFileStatus[absolutePath] = '[' . indicator . ']'
+
+        " cache dirty dir
+        let dirtyPath = substitute(absolutePath, '/[^/]*$', "/", "")
+        let cwd = getcwd() . '/'
+        while match(dirtyPath, cwd) != -1
+            let g:NERDTreeCachedGitDirtyDir[dirtyPath] = "[✗]"
+            let dirtyPath = substitute(dirtyPath, '/[^/]*/$', "/", "")
+        endwhile
+    endfor
 endfunction
 
 function! s:NERDTreeGetGitStatusIndicator(us, them)
@@ -60,41 +80,29 @@ function! s:NERDTreeGetGitStatusIndicator(us, them)
 endfunction
 
 function! s:NERDTreeTrimDoubleDot(path)
-    let s:toReturn = a:path
-    let s:find = stridx(s:toReturn, '/../')
-    while s:find != -1 
-        let s:toReturn = substitute(s:toReturn, '/[^/]\+/\.\./', "/", "")
-        let s:find = stridx(s:toReturn, '/../')
+    let toReturn = a:path
+    let find = stridx(toReturn, '/../')
+    while find != -1
+        let toReturn = substitute(toReturn, '/[^/]\+/\.\./', "/", "")
+        let find = stridx(toReturn, '/../')
     endwhile
-    return s:toReturn
+    return toReturn
 endfunction
 
 function! s:NERDTreeFiltRenameStatus(path)
-    let s:toReturn = a:path
-    let s:toReturn = substitute(s:toReturn, '.* -> ', "", "")
-    return s:toReturn
+    let toReturn = a:path
+    let toReturn = substitute(toReturn, '.* -> ', "", "")
+    return toReturn
 endfunction
 
 " FUNCTION: plugin:NERDTreeGetGitStatusPrefix(path) {{{2
 " return the indicator of the path
 " Args: path
 function! plugin:NERDTreeGetGitStatusPrefix(path)
-    for status in g:NERDTreeCachedGitStatus
-        let s:reletaivePath = substitute(status, '...', "", "")
-        let s:reletaivePath = s:NERDTreeFiltRenameStatus(s:reletaivePath)
-        let s:absolutePath = g:NERDTreePath.AbsolutePathFor(s:reletaivePath)
-        let s:absolutePath = s:NERDTreeTrimDoubleDot(s:absolutePath)
-        let s:position = stridx(s:absolutePath, a:path.str())
-        if s:position != -1 
-            if a:path.isDirectory 
-                return "[✗]"
-            endif
-            let s:indicator = s:NERDTreeGetGitStatusIndicator(status[0], status[1])
-            return "[" . s:indicator . "]"
-        endif
-    endfor
-
-    return ""
+    if a:path.isDirectory
+        return get(g:NERDTreeCachedGitDirtyDir, a:path.str() . '/', "")
+    endif
+    return get(g:NERDTreeCachedGitFileStatus, a:path.str(), "")
 endfunction
 
 " FUNCTION: s:jumpToNextHunk(node) {{{2
