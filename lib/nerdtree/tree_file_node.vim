@@ -260,7 +260,6 @@ function! s:TreeFileNode.GetSelected()
         endif
         return b:NERDTreeRoot.findNode(path)
     catch /^NERDTree/
-        echo 'exception'
         return {}
     endtry
 endfunction
