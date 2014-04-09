@@ -39,7 +39,7 @@ function! plugin:NERDTreeGitStatusRefresh()
 
     let statusStr = system("git status -s")
     let statusSplit = split(statusStr, '\n')
-    if statusSplit != [] && statusSplit[0] == "fatal: Not a git repository (or any of the parent directories): .git"
+    if statusSplit != [] && statusSplit[0] ==# "fatal: Not a git repository (or any of the parent directories): .git"
         let statusSplit = []
     endif
     for status in statusSplit
@@ -54,7 +54,7 @@ function! plugin:NERDTreeGitStatusRefresh()
         " cache dirty dir
         let dirtyPath = substitute(absolutePath, '/[^/]*$', "/", "")
         let cwd = getcwd() . '/'
-        while match(dirtyPath, cwd) != -1
+        while dirtyPath =~# cwd
             let g:NERDTreeCachedGitDirtyDir[dirtyPath] = "[✗]"
             let dirtyPath = substitute(dirtyPath, '/[^/]*/$', "/", "")
         endwhile
@@ -66,7 +66,7 @@ function! s:NERDTreeGetGitStatusIndicator(us, them)
         return '✭'
     elseif a:us == ' ' && a:them == 'M'
         return '✹'
-    elseif match(a:us, '[MAC]') != -1
+    elseif a:us =~# '[MAC]'
         return '✚'
     elseif a:us == 'R'
         return '➜'
