@@ -45,15 +45,6 @@ WARNING
 
 It has **NOT** been tested in Windows.
 
-TODO
-----
-
-* ~~add key mapping, default: `]c` to next change, `[c` to prev change.~~
-
-* ~~refresh git status realtime.~~ This feature is too heavy, I give it up.
-
-**Happy Coding!!!!**
-
 More Info
 ---------
 
