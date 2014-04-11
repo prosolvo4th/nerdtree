@@ -841,15 +841,19 @@ function! nerdtree#renderView()
         call cursor(line(".")+1, col("."))
     endif
 
-    "draw the header line
-    let header = b:NERDTreeRoot.path.str({'format': 'UI', 'truncateTo': winwidth(0)})
-    call setline(line(".")+1, header)
-    call cursor(line(".")+1, col("."))
-
     "refresh git status
     if g:NERDTreeShowGitStatus
         call plugin:NERDTreeGitStatusRefresh()
     endif
+
+    "draw the header line
+    let headerStatus = ""
+    if g:NERDTreeShowGitStatus
+        let headerStatus = plugin:NERDTreeGetCWDGitStatus()
+    endif
+    let header = headerStatus . b:NERDTreeRoot.path.str({'format': 'UI', 'truncateTo': winwidth(0) - len(headerStatus) + 2})
+    call setline(line(".")+1, header)
+    call cursor(line(".")+1, col("."))
 
     "draw the tree
     let old_o = @o

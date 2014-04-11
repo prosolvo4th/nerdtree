@@ -244,7 +244,7 @@ endfunction
 "gets the line number of the root node
 function! s:TreeFileNode.GetRootLineNum()
     let rootLine = 1
-    while getline(rootLine) !~# '^\(/\|<\)'
+    while getline(rootLine) !~# '^\(\[.\]\)\?[/|<]'
         let rootLine = rootLine + 1
     endwhile
     return rootLine

@@ -26,7 +26,8 @@ syn match NERDTreeGitStatusRenamed #➜#
 syn match NERDTreeGitStatusUnmerged #═#
 syn match NERDTreeGitStatusUntracked #✭#
 syn match NERDTreeGitStatusDirDirty #✗#
-syn match NERDTreeGitStatusDirty #\[[^{RO}]\]# contains=NERDTreeGitStatusAdded,NERDTreeGitStatusModified,NERDTreeGitStatusUnmodified,NERDTreeGitStatusRenamed,NERDTreeGitStatusUnmerged,NERDTreeGitStatusUntracked,NERDTreeGitStatusDirDirty
+syn match NERDTreeGitStatusDirClean #✔︎#
+syn match NERDTreeGitStatus #\[[^{RO}]\]# contains=NERDTreeGitStatusAdded,NERDTreeGitStatusModified,NERDTreeGitStatusUnmodified,NERDTreeGitStatusRenamed,NERDTreeGitStatusUnmerged,NERDTreeGitStatusUntracked,NERDTreeGitStatusDirDirty,NERDTreeGitStatusDirClean
 
 "quickhelp syntax elements
 syn match NERDTreeHelpKey #" \{1,2\}[^ ]*:#hs=s+2,he=e-1
@@ -38,18 +39,18 @@ syn match NERDTreeHelpCommand #" :.\{-}\>#hs=s+3
 syn match NERDTreeHelp  #^".*# contains=NERDTreeHelpKey,NERDTreeHelpTitle,NERDTreeFlag,NERDTreeToggleOff,NERDTreeToggleOn,NERDTreeHelpCommand
 
 "highlighting for readonly files
-syn match NERDTreeRO #.*\[RO\]#hs=s+2 contains=NERDTreeFlag,NERDTreeBookmark,NERDTreePart,NERDTreePartFile,NERDTreeGitStatusDirty
+syn match NERDTreeRO #.*\[RO\]#hs=s+2 contains=NERDTreeFlag,NERDTreeBookmark,NERDTreePart,NERDTreePartFile,NERDTreeGitStatus
 
 "highlighting for sym links
-syn match NERDTreeLink #[^-| `].* -> # contains=NERDTreeBookmark,NERDTreeOpenable,NERDTreeClosable,NERDTreeDirSlash,NERDTreeGitStatusDirty
+syn match NERDTreeLink #[^-| `].* -> # contains=NERDTreeBookmark,NERDTreeOpenable,NERDTreeClosable,NERDTreeDirSlash,NERDTreeGitStatus
 
 "highlighing for directory nodes and file nodes
 syn match NERDTreeDirSlash #/#
-syn match NERDTreeDir #[^-| `].*/# contains=NERDTreeLink,NERDTreeDirSlash,NERDTreeOpenable,NERDTreeClosable,NERDTreeGitStatusDirty
-syn match NERDTreeExecFile  #[|` ].*\*\($\| \)# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeGitStatusDirty
-syn match NERDTreeFile  #|-.*# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeExecFile,NERDTreeGitStatusDirty
-syn match NERDTreeFile  #`-.*# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeExecFile,NERDTreeGitStatusDirty
-syn match NERDTreeCWD #^[</].*$#
+syn match NERDTreeDir #[^-| `].*/# contains=NERDTreeLink,NERDTreeDirSlash,NERDTreeOpenable,NERDTreeClosable,NERDTreeGitStatus
+syn match NERDTreeExecFile  #[|` ].*\*\($\| \)# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeGitStatus
+syn match NERDTreeFile  #|-.*# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeExecFile,NERDTreeGitStatus
+syn match NERDTreeFile  #`-.*# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeExecFile,NERDTreeGitStatus
+syn match NERDTreeCWD #^\(\[.\]\?\)[/|<].*$# contains=NERDTreeGitStatus
 
 "highlighting for bookmarks
 syn match NERDTreeBookmark # {.*}#hs=s+1
@@ -105,4 +106,5 @@ hi def link NERDTreeGitStatusRenamed Title
 hi def link NERDTreeGitStatusUnmerged Label
 hi def link NERDTreeGitStatusUntracked Comment
 hi def link NERDTreeGitStatusDirDirty Tag
-hi def link NERDTreeGitStatusDirty Number
+hi def link NERDTreeGitStatusDirClean Type
+hi def link NERDTreeGitStatus Number

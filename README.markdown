@@ -18,6 +18,7 @@ Indicators
 * ═ : Unmerged
 * ✖ : Deleted (This indicator can't be shown, as NERDTree doesn't display deleted files. I have no prefect idea to solve this problem currently.)
 * ✗ : Dirty (Only for directory)
+* ✔︎ : Clean (Only for directory)
 
 Key mapping
 -----------
