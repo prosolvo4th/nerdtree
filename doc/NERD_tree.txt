@@ -229,6 +229,8 @@ O.......Recursively open the selected directory..................|NERDTree-O|
 x.......Close the current nodes parent...........................|NERDTree-x|
 X.......Recursively close all children of the current node.......|NERDTree-X|
 e.......Edit the current dir.....................................|NERDTree-e|
+]c......Jump to the next hunk....................................|NERDTree-]c|
+[c......Jump to the prev hunk....................................|NERDTree-[c|
 
 <CR>...............same as |NERDTree-o|.
 double-click.......same as the |NERDTree-o| map.
@@ -392,6 +394,22 @@ Applies to: files and directories.
 |:edit|s the selected directory, or the selected file's directory. This could
 result in a NERD tree or a netrw being opened, depending on
 |'NERDTreeHijackNetrw'|.
+
+------------------------------------------------------------------------------
+                                                                 *NERDTree-]c*
+Default key: ]c
+Map option: NERDTreeMapNextHunk
+Applies to: files and directories.
+
+Jump to the next hunk.
+
+------------------------------------------------------------------------------
+                                                                 *NERDTree-[c*
+Default key: [c
+Map option: NERDTreeMapPrevHunk
+Applies to: files and directories.
+
+Jump to the prev hunk.
 
 ------------------------------------------------------------------------------
                                                                   *NERDTree-D*
@@ -674,6 +692,8 @@ NERD tree. These options should be set in your vimrc.
 |'NERDTreeAutoDeleteBuffer'|    Tells the NERD tree to automatically remove 
                                 a buffer when a file is being deleted or renamed
                                 via a context menu command.
+
+|'g:NERDTreeShowGitStatus'|     Show git status of CWD
 
 ------------------------------------------------------------------------------
 3.2. Customisation details                             *NERDTreeOptionDetails*
@@ -1011,6 +1031,18 @@ then it worths to set this option to 1. Use one of the follow lines to set this
 option: >
     let NERDTreeAutoDeleteBuffer=0
     let NERDTreeAutoDeleteBuffer=1
+<
+
+------------------------------------------------------------------------------
+                                          *'g:NERDTreeShowGitStatus'*
+Values: 0 or 1
+Default: 1.
+
+Show git status indicator at the front the files or directories. If you want to
+disable this feature, then set this option to 0. Use one of the follow
+lines to set this option: >
+    let g:NERDTreeShowGitStatus = 0
+    let g:NERDTreeShowGitStatus = 1
 <
 
 ==============================================================================
