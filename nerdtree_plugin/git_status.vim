@@ -35,6 +35,7 @@ function! plugin:NERDTreeGitStatusRefresh()
 
     if !executable('git')
         call nerdtree#echo("Please install git command first.")
+        let s:NOT_A_GIT_REPOSITORY = 1
         return
     endif
 
@@ -69,6 +70,9 @@ endfunction
 " return the indicator of the path
 " Args: path
 function! plugin:NERDTreeGetGitStatusPrefix(path)
+    if s:NOT_A_GIT_REPOSITORY
+        return ""
+    endif
     if a:path.isDirectory
         return get(g:NERDTreeCachedGitDirtyDir, a:path.str() . '/', "")
     endif
