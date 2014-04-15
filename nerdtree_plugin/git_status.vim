@@ -31,11 +31,13 @@ endif
 function! plugin:NERDTreeGitStatusRefresh()
     let g:NERDTreeCachedGitFileStatus = {}
     let g:NERDTreeCachedGitDirtyDir   = {}
-    let s:NOT_A_GIT_REPOSITORY = 0
+    let s:NOT_A_GIT_REPOSITORY        = 0
+    let s:GIT_COMMAND_NOT_FOUND       = 0
 
+    " check if git command exists
     if !executable('git')
         call nerdtree#echo("Please install git command first.")
-        let s:NOT_A_GIT_REPOSITORY = 1
+        let s:GIT_COMMAND_NOT_FOUND = 1
         return
     endif
 
@@ -70,7 +72,7 @@ endfunction
 " return the indicator of the path
 " Args: path
 function! plugin:NERDTreeGetGitStatusPrefix(path)
-    if s:NOT_A_GIT_REPOSITORY
+    if s:NOT_A_GIT_REPOSITORY || s:GIT_COMMAND_NOT_FOUND
         return ""
     endif
     if a:path.isDirectory
@@ -82,7 +84,7 @@ endfunction
 " FUNCTION: plugin:NERDTreeGetCWDGitStatus() {{{2
 " return the indicator of cwd
 function! plugin:NERDTreeGetCWDGitStatus()
-    if s:NOT_A_GIT_REPOSITORY
+    if s:NOT_A_GIT_REPOSITORY || s:GIT_COMMAND_NOT_FOUND
         return ''
     endif
     if g:NERDTreeCachedGitDirtyDir == {} && g:NERDTreeCachedGitFileStatus == {}
