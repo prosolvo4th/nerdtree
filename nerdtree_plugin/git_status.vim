@@ -31,11 +31,11 @@ endif
 function! plugin:NERDTreeGitStatusRefresh()
     let g:NERDTreeCachedGitFileStatus = {}
     let g:NERDTreeCachedGitDirtyDir   = {}
-    let s:NOT_A_GIT_REPOSITORY = 0
+    let s:NOT_A_GIT_REPOSITORY        = 1
 
+    " check if git command exists
     if !executable('git')
         call nerdtree#echo("Please install git command first.")
-        let s:NOT_A_GIT_REPOSITORY = 1
         return
     endif
 
@@ -43,12 +43,20 @@ function! plugin:NERDTreeGitStatusRefresh()
     let statusSplit = split(statusStr, '\n')
     if statusSplit != [] && statusSplit[0] ==# "fatal: Not a git repository (or any of the parent directories): .git"
         let statusSplit = []
-        let s:NOT_A_GIT_REPOSITORY = 1
+        return
     endif
+    let s:NOT_A_GIT_REPOSITORY = 0
+
     for status in statusSplit
         " cache git status of files
         let reletaivePath = substitute(status, '...', "", "")
-        let reletaivePath = s:NERDTreeFiltRenameStatus(reletaivePath)
+        let pathSplit = split(reletaivePath, ' -> ')
+        if len(pathSplit) == 2
+            call s:NERDTreeCachedDirtyDir(g:NERDTreePath.AbsolutePathFor(pathSplit[0]))
+            let reletaivePath = pathSplit[1]
+        else
+            let reletaivePath = pathSplit[0]
+        endif
         if reletaivePath =~# '\.\./.*'
             continue
         endif
@@ -56,23 +64,27 @@ function! plugin:NERDTreeGitStatusRefresh()
         let indicator     = s:NERDTreeGetGitStatusIndicator(status[0], status[1])
         let g:NERDTreeCachedGitFileStatus[absolutePath] = '[' . indicator . ']'
 
-        " cache dirty dir
-        let dirtyPath = substitute(absolutePath, '/[^/]*$', "/", "")
-        let cwd = fnameescape(getcwd()) . '/.\+'
-        while dirtyPath =~# cwd && has_key(g:NERDTreeCachedGitDirtyDir, fnameescape(dirtyPath)) == 0
-            let g:NERDTreeCachedGitDirtyDir[dirtyPath] = "[✗]"
-            let dirtyPath = substitute(dirtyPath, '/[^/]*/$', "/", "")
-        endwhile
+        call s:NERDTreeCachedDirtyDir(absolutePath)
     endfor
+endfunction
+
+function! s:NERDTreeCachedDirtyDir(pathStr)
+    " cache dirty dir
+    if a:pathStr =~# '\.\./.*'
+        return
+    endif
+    let dirtyPath = substitute(a:pathStr, '/[^/]*$', "/", "")
+    let cwd = fnameescape(getcwd())
+    while dirtyPath =~# cwd && has_key(g:NERDTreeCachedGitDirtyDir, fnameescape(dirtyPath)) == 0
+        let g:NERDTreeCachedGitDirtyDir[dirtyPath] = "[✗]"
+        let dirtyPath = substitute(dirtyPath, '/[^/]*/$', "/", "")
+    endwhile
 endfunction
 
 " FUNCTION: plugin:NERDTreeGetGitStatusPrefix(path) {{{2
 " return the indicator of the path
 " Args: path
 function! plugin:NERDTreeGetGitStatusPrefix(path)
-    if s:NOT_A_GIT_REPOSITORY
-        return ""
-    endif
     if a:path.isDirectory
         return get(g:NERDTreeCachedGitDirtyDir, a:path.str() . '/', "")
     endif
@@ -83,12 +95,11 @@ endfunction
 " return the indicator of cwd
 function! plugin:NERDTreeGetCWDGitStatus()
     if s:NOT_A_GIT_REPOSITORY
-        return ''
+        return ""
+    elseif has_key(g:NERDTreeCachedGitDirtyDir, getcwd() . '/')
+        return '[✗]'
     endif
-    if g:NERDTreeCachedGitDirtyDir == {} && g:NERDTreeCachedGitFileStatus == {}
-        return '[✔︎]'
-    endif
-    return '[✗]'
+    return '[✔︎]'
 endfunction
 
 function! s:NERDTreeGetGitStatusIndicator(us, them)
@@ -107,12 +118,6 @@ function! s:NERDTreeGetGitStatusIndicator(us, them)
     else
         return '*'
     endif
-endfunction
-
-function! s:NERDTreeFiltRenameStatus(path)
-    let toReturn = a:path
-    let toReturn = substitute(toReturn, '.* -> ', "", "")
-    return toReturn
 endfunction
 
 " FUNCTION: s:jumpToNextHunk(node) {{{2
