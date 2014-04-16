@@ -52,7 +52,7 @@ function! plugin:NERDTreeGitStatusRefresh()
         let pathStr = substitute(status, '...', "", "")
         let pathSplit = split(pathStr, ' -> ')
         if len(pathSplit) == 2
-            call s:NERDTreeCachedDirtyDir(g:NERDTreePath.AbsolutePathFor(pathSplit[0]))
+            call s:NERDTreeCachedDirtyDir(pathSplit[0])
             let pathStr = pathSplit[1]
         else
             let pathStr = pathSplit[0]
@@ -61,9 +61,8 @@ function! plugin:NERDTreeGitStatusRefresh()
         if pathStr =~# '\.\./.*'
             continue
         endif
-        let pathStr  = g:NERDTreePath.AbsolutePathFor(pathStr)
         let indicator     = s:NERDTreeGetGitStatusIndicator(status[0], status[1])
-        let g:NERDTreeCachedGitFileStatus[pathStr] = '[' . indicator . ']'
+        let g:NERDTreeCachedGitFileStatus[fnameescape(pathStr)] = '[' . indicator . ']'
 
         call s:NERDTreeCachedDirtyDir(pathStr)
     endfor
@@ -75,10 +74,11 @@ function! s:NERDTreeCachedDirtyDir(pathStr)
     if dirtyPath =~# '\.\./.*'
         return
     endif
+    let dirtyPath = dirtyPath
     let dirtyPath = substitute(dirtyPath, '/[^/]*$', "/", "")
-    let cwd = fnameescape(getcwd())
-    while dirtyPath =~# cwd && has_key(g:NERDTreeCachedGitDirtyDir, fnameescape(dirtyPath)) == 0
-        let g:NERDTreeCachedGitDirtyDir[dirtyPath] = "[✗]"
+    let cwd = fnameescape('./')
+    while dirtyPath =~# '.\+/.*' && has_key(g:NERDTreeCachedGitDirtyDir, fnameescape(dirtyPath)) == 0
+        let g:NERDTreeCachedGitDirtyDir[fnameescape(dirtyPath)] = "[✗]"
         let dirtyPath = substitute(dirtyPath, '/[^/]*/$', "/", "")
     endwhile
 endfunction
@@ -94,9 +94,9 @@ endfunction
 " Args: path
 function! plugin:NERDTreeGetGitStatusPrefix(path)
     if a:path.isDirectory
-        return get(g:NERDTreeCachedGitDirtyDir, a:path.str() . '/', "")
+        return get(g:NERDTreeCachedGitDirtyDir, a:path._strForEdit(), "")
     endif
-    return get(g:NERDTreeCachedGitFileStatus, a:path.str(), "")
+    return get(g:NERDTreeCachedGitFileStatus, a:path._strForEdit(), "")
 endfunction
 
 " FUNCTION: plugin:NERDTreeGetCWDGitStatus() {{{2
@@ -104,10 +104,10 @@ endfunction
 function! plugin:NERDTreeGetCWDGitStatus()
     if s:NOT_A_GIT_REPOSITORY
         return ""
-    elseif has_key(g:NERDTreeCachedGitDirtyDir, getcwd() . '/')
-        return '[✗]'
+    elseif g:NERDTreeCachedGitDirtyDir == {} && g:NERDTreeCachedGitFileStatus == {}
+        return '[✔︎]'
     endif
-    return '[✔︎]'
+    return '[✗]'
 endfunction
 
 function! s:NERDTreeGetGitStatusIndicator(us, them)
