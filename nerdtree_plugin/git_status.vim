@@ -49,31 +49,29 @@ function! plugin:NERDTreeGitStatusRefresh()
 
     for status in statusSplit
         " cache git status of files
-        let reletaivePath = substitute(status, '...', "", "")
-        let pathSplit = split(reletaivePath, ' -> ')
+        let pathStr = substitute(status, '...', "", "")
+        let pathSplit = split(pathStr, ' -> ')
         if len(pathSplit) == 2
             call s:NERDTreeCachedDirtyDir(g:NERDTreePath.AbsolutePathFor(pathSplit[0]))
-            let reletaivePath = pathSplit[1]
+            let pathStr = pathSplit[1]
         else
-            let reletaivePath = pathSplit[0]
+            let pathStr = pathSplit[0]
         endif
-        let reletaivePath = substitute(reletaivePath, '^"', "", "")
-        let reletaivePath = substitute(reletaivePath, '"$', "", "")
-        if reletaivePath =~# '\.\./.*'
+        let pathStr = s:NERDTreeTrimDoubleQuotes(pathStr)
+        if pathStr =~# '\.\./.*'
             continue
         endif
-        let absolutePath  = g:NERDTreePath.AbsolutePathFor(reletaivePath)
+        let pathStr  = g:NERDTreePath.AbsolutePathFor(pathStr)
         let indicator     = s:NERDTreeGetGitStatusIndicator(status[0], status[1])
-        let g:NERDTreeCachedGitFileStatus[absolutePath] = '[' . indicator . ']'
+        let g:NERDTreeCachedGitFileStatus[pathStr] = '[' . indicator . ']'
 
-        call s:NERDTreeCachedDirtyDir(absolutePath)
+        call s:NERDTreeCachedDirtyDir(pathStr)
     endfor
 endfunction
 
 function! s:NERDTreeCachedDirtyDir(pathStr)
     " cache dirty dir
-    let dirtyPath = substitute(a:pathStr, '^"', "", "")
-    let dirtyPath = substitute(dirtyPath, '"$', "", "")
+    let dirtyPath = s:NERDTreeTrimDoubleQuotes(a:pathStr)
     if dirtyPath =~# '\.\./.*'
         return
     endif
@@ -83,6 +81,12 @@ function! s:NERDTreeCachedDirtyDir(pathStr)
         let g:NERDTreeCachedGitDirtyDir[dirtyPath] = "[✗]"
         let dirtyPath = substitute(dirtyPath, '/[^/]*/$', "/", "")
     endwhile
+endfunction
+
+function! s:NERDTreeTrimDoubleQuotes(pathStr)
+    let toReturn = substitute(a:pathStr, '^"', "", "")
+    let toReturn = substitute(toReturn, '"$', "", "")
+    return toReturn
 endfunction
 
 " FUNCTION: plugin:NERDTreeGetGitStatusPrefix(path) {{{2
