@@ -57,6 +57,8 @@ function! plugin:NERDTreeGitStatusRefresh()
         else
             let reletaivePath = pathSplit[0]
         endif
+        let reletaivePath = substitute(reletaivePath, '^"', "", "")
+        let reletaivePath = substitute(reletaivePath, '"$', "", "")
         if reletaivePath =~# '\.\./.*'
             continue
         endif
@@ -70,10 +72,12 @@ endfunction
 
 function! s:NERDTreeCachedDirtyDir(pathStr)
     " cache dirty dir
-    if a:pathStr =~# '\.\./.*'
+    let dirtyPath = substitute(a:pathStr, '^"', "", "")
+    let dirtyPath = substitute(dirtyPath, '"$', "", "")
+    if dirtyPath =~# '\.\./.*'
         return
     endif
-    let dirtyPath = substitute(a:pathStr, '/[^/]*$', "/", "")
+    let dirtyPath = substitute(dirtyPath, '/[^/]*$', "/", "")
     let cwd = fnameescape(getcwd())
     while dirtyPath =~# cwd && has_key(g:NERDTreeCachedGitDirtyDir, fnameescape(dirtyPath)) == 0
         let g:NERDTreeCachedGitDirtyDir[dirtyPath] = "[✗]"
