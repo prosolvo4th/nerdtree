@@ -41,7 +41,7 @@ function! plugin:NERDTreeGitStatusRefresh()
 
     let statusStr = system("git status -s")
     let statusSplit = split(statusStr, '\n')
-    if statusSplit != [] && statusSplit[0] ==# "fatal: Not a git repository (or any of the parent directories): .git"
+    if statusSplit != [] && statusSplit[0] =~# "fatal:.*"
         let statusSplit = []
         return
     endif
