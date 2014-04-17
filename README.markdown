@@ -17,7 +17,7 @@ Indicators
 * ➜ : Renamed
 * ═ : Unmerged
 * ✖ : Deleted (This indicator can't be shown, as NERDTree doesn't display deleted files. I have no prefect idea to solve this problem currently.)
-* ✗ : Dirty (Only for directory)
+* ✗ : Dirty (Only for directory, a dirty directory without dirty files means that some files has bean deleted)
 * ✔︎ : Clean (Only for directory)
 
 Key mapping
