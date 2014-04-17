@@ -39,7 +39,8 @@ function! plugin:NERDTreeGitStatusRefresh()
         return
     endif
 
-    let statusStr = system("git status -s")
+    let root = b:NERDTreeRoot.path._str()
+    let statusStr = system("cd " . root . " && git status -s")
     let statusSplit = split(statusStr, '\n')
     if statusSplit != [] && statusSplit[0] =~# "fatal:.*"
         let statusSplit = []
@@ -93,10 +94,17 @@ endfunction
 " return the indicator of the path
 " Args: path
 function! plugin:NERDTreeGetGitStatusPrefix(path)
-    if a:path.isDirectory
-        return get(g:NERDTreeCachedGitDirtyDir, a:path._strForEdit(), "")
+    let pathStr = a:path._str()
+    let cwd = b:NERDTreeRoot.path._str() . a:path.Slash()
+    if nerdtree#runningWindows()
+        let pathStr = a:path.WinToUnixPath(pathStr)
+        let cwd = a:path.WinToUnixPath(cwd)
     endif
-    return get(g:NERDTreeCachedGitFileStatus, a:path._strForEdit(), "")
+    let pathStr = substitute(pathStr, fnameescape(cwd), "", "")
+    if a:path.isDirectory
+        return get(g:NERDTreeCachedGitDirtyDir, pathStr . '/', "")
+    endif
+    return get(g:NERDTreeCachedGitFileStatus, pathStr, "")
 endfunction
 
 " FUNCTION: plugin:NERDTreeGetCWDGitStatus() {{{2
