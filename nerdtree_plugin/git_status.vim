@@ -94,7 +94,13 @@ endfunction
 " return the indicator of the path
 " Args: path
 function! plugin:NERDTreeGetGitStatusPrefix(path)
-    let pathStr = substitute(a:path.str(), fnameescape(b:NERDTreeRoot.path._str()) . '/', "", "")
+    let pathStr = a:path._str()
+    let cwd = b:NERDTreeRoot.path._str() . a:path.Slash()
+    if nerdtree#runningWindows()
+        let pathStr = a:path.WinToUnixPath(pathStr)
+        let cwd = a:path.WinToUnixPath(cwd)
+    endif
+    let pathStr = substitute(pathStr, fnameescape(cwd), "", "")
     if a:path.isDirectory
         return get(g:NERDTreeCachedGitDirtyDir, pathStr . '/', "")
     endif
