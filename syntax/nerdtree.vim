@@ -20,13 +20,21 @@ syn match NERDTreePartFile #[|`]-#hs=s+1 contains=NERDTreePart
 
 "highlighing for the git status
 syn match NERDTreeGitStatusModified #✹#
+syn match NERDTreeGitStatusModified /\[\~\]/ms=s+1,me=e-1
 syn match NERDTreeGitStatusAdded #✚#
+syn match NERDTreeGitStatusAdded /\[+\]/ms=s+1,me=e-1
 syn match NERDTreeGitStatusDeleted #✖#
+syn match NERDTreeGitStatusDeleted /\[-\]/ms=s+1,me=e-1
 syn match NERDTreeGitStatusRenamed #➜#
+syn match NERDTreeGitStatusRenamed /\[»\]/ms=s+1,me=e-1
 syn match NERDTreeGitStatusUnmerged #═#
+syn match NERDTreeGitStatusUnmerged /\[=\]/ms=s+1,me=e-1
 syn match NERDTreeGitStatusUntracked #✭#
+syn match NERDTreeGitStatusUntracked /\[\*\]/ms=s+1,me=e-1
 syn match NERDTreeGitStatusDirDirty #✗#
+syn match NERDTreeGitStatusDirDirty /\[×\]/ms=s+1,me=e-1
 syn match NERDTreeGitStatusDirClean #✔︎#
+syn match NERDTreeGitStatusDirClean /\[ø\]/ms=s+1,me=e-1
 syn match NERDTreeGitStatus #\[[^{RO}]\]# contains=NERDTreeGitStatusAdded,NERDTreeGitStatusModified,NERDTreeGitStatusUnmodified,NERDTreeGitStatusRenamed,NERDTreeGitStatusUnmerged,NERDTreeGitStatusUntracked,NERDTreeGitStatusDirDirty,NERDTreeGitStatusDirClean
 
 "quickhelp syntax elements
@@ -104,7 +112,7 @@ hi def link NERDTreeGitStatusAdded Function
 hi def link NERDTreeGitStatusDeleted Keyword
 hi def link NERDTreeGitStatusRenamed Title
 hi def link NERDTreeGitStatusUnmerged Label
-hi def link NERDTreeGitStatusUntracked Comment
+hi def link NERDTreeGitStatusUntracked Structure
 hi def link NERDTreeGitStatusDirDirty Tag
 hi def link NERDTreeGitStatusDirClean Type
 hi def link NERDTreeGitStatus Number
