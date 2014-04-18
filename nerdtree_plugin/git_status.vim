@@ -38,7 +38,7 @@ if !exists('s:NERDTreeIndicatorMap')
                     \ "Staged": "+",
                     \ "Untracked": "*",
                     \ "Renamed": "»",
-                    \ "Merged": "=",
+                    \ "Unmerged": "=",
                     \ "Deleted": "-",
                     \ "Dirty": "×",
                     \ "Clean": "ø",
@@ -50,7 +50,7 @@ if !exists('s:NERDTreeIndicatorMap')
                     \ "Staged": "✚",
                     \ "Untracked": "✭",
                     \ "Renamed": "➜",
-                    \ "Merged": "═",
+                    \ "Unmerged": "═",
                     \ "Deleted": "✖",
                     \ "Dirty": "✗",
                     \ "Clean": "✔︎",
@@ -161,7 +161,7 @@ function! s:NERDTreeGetGitStatusIndicator(us, them)
     elseif a:us == 'R'
         return s:NERDTreeIndicatorMap["Renamed"]
     elseif a:us == 'U' || a:them == 'U' || a:us == 'A' && a:them == 'A' || a:us == 'D' && a:them == 'D'
-        return s:NERDTreeIndicatorMap["Merged"]
+        return s:NERDTreeIndicatorMap["Unmerged"]
     elseif a:them == 'D'
         return s:NERDTreeIndicatorMap["Deleted"]
     else
