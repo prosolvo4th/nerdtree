@@ -26,6 +26,35 @@ if !exists('g:NERDTreeMapPrevHunk')
     let g:NERDTreeMapPrevHunk = "[c"
 endif
 
+if !exists('s:NERDTreeIndicatorMap')
+    let s:NERDTreeIndicatorMap = {}
+    if nerdtree#runningWindows()
+        let s:NERDTreeIndicatorMap = {
+                    \ "Modified": "~",
+                    \ "Staged": "+",
+                    \ "Untracked": "*",
+                    \ "Renamed": "»",
+                    \ "Merged": "=",
+                    \ "Deleted": "-",
+                    \ "Dirty": "×",
+                    \ "Clean": "ø",
+                    \ "Unknown": "?"
+                    \ }
+    else
+        let s:NERDTreeIndicatorMap = {
+                    \ "Modified": "~",
+                    \ "Staged": "+",
+                    \ "Untracked": "*",
+                    \ "Renamed": "»",
+                    \ "Merged": "=",
+                    \ "Deleted": "-",
+                    \ "Dirty": "×",
+                    \ "Clean": "ø",
+                    \ "Unknown": "?"
+                    \ }
+    endif
+endif
+
 " FUNCTION: plugin:NERDTreeGitStatusRefresh() {{{2
 " refresh cached git status
 function! plugin:NERDTreeGitStatusRefresh()
@@ -79,7 +108,7 @@ function! s:NERDTreeCachedDirtyDir(pathStr)
     let dirtyPath = substitute(dirtyPath, '/[^/]*$', "/", "")
     let cwd = fnameescape('./')
     while dirtyPath =~# '.\+/.*' && has_key(g:NERDTreeCachedGitDirtyDir, fnameescape(dirtyPath)) == 0
-        let g:NERDTreeCachedGitDirtyDir[fnameescape(dirtyPath)] = "[✗]"
+        let g:NERDTreeCachedGitDirtyDir[fnameescape(dirtyPath)] = '[' . s:NERDTreeIndicatorMap["Dirty"] . ']'
         let dirtyPath = substitute(dirtyPath, '/[^/]*/$', "/", "")
     endwhile
 endfunction
@@ -113,26 +142,35 @@ function! plugin:NERDTreeGetCWDGitStatus()
     if s:NOT_A_GIT_REPOSITORY
         return ""
     elseif g:NERDTreeCachedGitDirtyDir == {} && g:NERDTreeCachedGitFileStatus == {}
-        return '[✔︎]'
+        " return '[✔︎]'
+        return '[' . s:NERDTreeIndicatorMap["Clean"] . ']'
     endif
-    return '[✗]'
+    " return '[✗]'
+    return '[' . s:NERDTreeIndicatorMap["Dirty"] . ']'
 endfunction
 
 function! s:NERDTreeGetGitStatusIndicator(us, them)
     if a:us == '?' && a:them == '?'
-        return '✭'
+        " return '✭'
+        return s:NERDTreeIndicatorMap["Untracked"]
     elseif a:us == ' ' && a:them == 'M'
-        return '✹'
+        " return '✹'
+        return s:NERDTreeIndicatorMap["Modified"]
     elseif a:us =~# '[MAC]'
-        return '✚'
+        " return '✚'
+        return s:NERDTreeIndicatorMap["Staged"]
     elseif a:us == 'R'
-        return '➜'
+        " return '➜'
+        return s:NERDTreeIndicatorMap["Renamed"]
     elseif a:us == 'U' || a:them == 'U' || a:us == 'A' && a:them == 'A' || a:us == 'D' && a:them == 'D'
-        return '═'
+        " return '═'
+        return s:NERDTreeIndicatorMap["Merged"]
     elseif a:them == 'D'
-        return '✖'
+        " return '✖'
+        return s:NERDTreeIndicatorMap["Deleted"]
     else
-        return '*'
+        " return '?'
+        return s:NERDTreeIndicatorMap["Unknown"]
     endif
 endfunction
 
