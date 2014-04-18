@@ -26,9 +26,13 @@ if !exists('g:NERDTreeMapPrevHunk')
     let g:NERDTreeMapPrevHunk = "[c"
 endif
 
+if !exists('g:NERDTreeUseSimpleIndicator')
+    let g:NERDTreeUseSimpleIndicator = 0
+endif
+
 if !exists('s:NERDTreeIndicatorMap')
     let s:NERDTreeIndicatorMap = {}
-    if nerdtree#runningWindows()
+    if g:NERDTreeUseSimpleIndicator
         let s:NERDTreeIndicatorMap = {
                     \ "Modified": "~",
                     \ "Staged": "+",
@@ -82,7 +86,7 @@ function! plugin:NERDTreeGitStatusRefresh()
         let pathStr = substitute(status, '...', "", "")
         let pathSplit = split(pathStr, ' -> ')
         if len(pathSplit) == 2
-            call s:NERDTreeCachedDirtyDir(pathSplit[0])
+            call s:NERDTreeCacheDirtyDir(pathSplit[0])
             let pathStr = pathSplit[1]
         else
             let pathStr = pathSplit[0]
@@ -94,11 +98,11 @@ function! plugin:NERDTreeGitStatusRefresh()
         let indicator     = s:NERDTreeGetGitStatusIndicator(status[0], status[1])
         let g:NERDTreeCachedGitFileStatus[fnameescape(pathStr)] = '[' . indicator . ']'
 
-        call s:NERDTreeCachedDirtyDir(pathStr)
+        call s:NERDTreeCacheDirtyDir(pathStr)
     endfor
 endfunction
 
-function! s:NERDTreeCachedDirtyDir(pathStr)
+function! s:NERDTreeCacheDirtyDir(pathStr)
     " cache dirty dir
     let dirtyPath = s:NERDTreeTrimDoubleQuotes(a:pathStr)
     if dirtyPath =~# '\.\./.*'
@@ -131,9 +135,9 @@ function! plugin:NERDTreeGetGitStatusPrefix(path)
     endif
     let pathStr = substitute(pathStr, fnameescape(cwd), "", "")
     if a:path.isDirectory
-        return get(g:NERDTreeCachedGitDirtyDir, pathStr . '/', "")
+        return get(g:NERDTreeCachedGitDirtyDir, fnameescape(pathStr . '/'), "")
     endif
-    return get(g:NERDTreeCachedGitFileStatus, pathStr, "")
+    return get(g:NERDTreeCachedGitFileStatus, fnameescape(pathStr), "")
 endfunction
 
 " FUNCTION: plugin:NERDTreeGetCWDGitStatus() {{{2
