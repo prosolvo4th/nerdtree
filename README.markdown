@@ -11,14 +11,16 @@ Add git status support for NERDTree.You can indicate a file's git status, quickl
 Indicators
 ----------
 
-* ✭ : Untracked
-* ✹ : Modified in the working tree
-* ✚ : Staged in the index (Exclude Renamed status)
-* ➜ : Renamed
-* ═ : Unmerged
-* ✖ : Deleted (This indicator can't be shown, as NERDTree doesn't display deleted files. I have no prefect idea to solve this problem currently.)
-* ✗ : Dirty (Only for directory, a dirty directory without dirty files means that some files has bean deleted)
-* ✔︎ : Clean (Only for directory)
+* ✭/* : Untracked
+* ✹/~ : Modified in the working tree
+* ✚/+ : Staged in the index (Exclude Renamed status)
+* ➜/» : Renamed
+* ═/= : Unmerged
+* ✖/- : Deleted (This indicator can't be shown, as NERDTree doesn't display deleted files. I have no prefect idea to solve this problem currently.)
+* ✗/× : Dirty (Only for directory)
+* ✔︎/ø : Clean (Only for directory)
+
+**Option** `let g:NERDTreeUseSimpleIndicator = 1` to show the simple indicator.
 
 Key mapping
 -----------
@@ -40,11 +42,6 @@ Status Refresh
 `Add`, `Delete`, `Move` and `Copy` actions through the `m` menu will refresh git status indicators automatically.
 
 File modified, `stage` or `commit` actions through **vim-fugitive** plugin won't active the status refreshing, this is because that NERDTree itself doesn't support auto refreshing function. You should press `r` or `R` to refresh the tree view by yourself after these actions.
-
-WARNING
--------
-
-It has **NOT** been tested in Windows.
 
 More Info
 ---------
