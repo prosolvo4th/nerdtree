@@ -42,14 +42,14 @@ if !exists('s:NERDTreeIndicatorMap')
                     \ }
     else
         let s:NERDTreeIndicatorMap = {
-                    \ "Modified": "~",
-                    \ "Staged": "+",
-                    \ "Untracked": "*",
-                    \ "Renamed": "»",
+                    \ "Modified": "✹",
+                    \ "Staged": "✚",
+                    \ "Untracked": "✭",
+                    \ "Renamed": "➜",
                     \ "Merged": "=",
-                    \ "Deleted": "-",
-                    \ "Dirty": "×",
-                    \ "Clean": "ø",
+                    \ "Deleted": "✖",
+                    \ "Dirty": "✗",
+                    \ "Clean": "✔︎",
                     \ "Unknown": "?"
                     \ }
     endif
@@ -142,7 +142,6 @@ function! plugin:NERDTreeGetCWDGitStatus()
     if s:NOT_A_GIT_REPOSITORY
         return ""
     elseif g:NERDTreeCachedGitDirtyDir == {} && g:NERDTreeCachedGitFileStatus == {}
-        " return '[✔︎]'
         return '[' . s:NERDTreeIndicatorMap["Clean"] . ']'
     endif
     " return '[✗]'
@@ -151,25 +150,18 @@ endfunction
 
 function! s:NERDTreeGetGitStatusIndicator(us, them)
     if a:us == '?' && a:them == '?'
-        " return '✭'
         return s:NERDTreeIndicatorMap["Untracked"]
     elseif a:us == ' ' && a:them == 'M'
-        " return '✹'
         return s:NERDTreeIndicatorMap["Modified"]
     elseif a:us =~# '[MAC]'
-        " return '✚'
         return s:NERDTreeIndicatorMap["Staged"]
     elseif a:us == 'R'
-        " return '➜'
         return s:NERDTreeIndicatorMap["Renamed"]
     elseif a:us == 'U' || a:them == 'U' || a:us == 'A' && a:them == 'A' || a:us == 'D' && a:them == 'D'
-        " return '═'
         return s:NERDTreeIndicatorMap["Merged"]
     elseif a:them == 'D'
-        " return '✖'
         return s:NERDTreeIndicatorMap["Deleted"]
     else
-        " return '?'
         return s:NERDTreeIndicatorMap["Unknown"]
     endif
 endfunction
