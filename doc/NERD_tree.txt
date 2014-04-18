@@ -693,7 +693,10 @@ NERD tree. These options should be set in your vimrc.
                                 a buffer when a file is being deleted or renamed
                                 via a context menu command.
 
-|'g:NERDTreeShowGitStatus'|     Show git status of CWD
+|'g:NERDTreeShowGitStatus'|     Show git status of CWD.
+
+|'g:NERDTreeUseSimpleIndicator'|
+                                Display simple git status indicator.
 
 ------------------------------------------------------------------------------
 3.2. Customisation details                             *NERDTreeOptionDetails*
@@ -1043,6 +1046,19 @@ disable this feature, then set this option to 0. Use one of the follow
 lines to set this option: >
     let g:NERDTreeShowGitStatus = 0
     let g:NERDTreeShowGitStatus = 1
+<
+
+------------------------------------------------------------------------------
+                                          *'g:NERDTreeUseSimpleIndicator'*
+Values: 0 or 1
+Default: 0.
+
+Show git status indicator in simple style, like '+' instad of '✚'. This option
+is useful when the vim doesn't support complex character. If you want to
+enable this feature, then set this option to 1. Use one of the follow
+lines to set this option: >
+    let g:NERDTreeUseSimpleIndicator = 0
+    let g:NERDTreeUseSimpleIndicator = 1
 <
 
 ==============================================================================

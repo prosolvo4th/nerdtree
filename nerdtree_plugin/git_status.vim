@@ -50,7 +50,7 @@ if !exists('s:NERDTreeIndicatorMap')
                     \ "Staged": "✚",
                     \ "Untracked": "✭",
                     \ "Renamed": "➜",
-                    \ "Merged": "=",
+                    \ "Merged": "═",
                     \ "Deleted": "✖",
                     \ "Dirty": "✗",
                     \ "Clean": "✔︎",
