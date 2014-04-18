@@ -11,14 +11,14 @@ Add git status support for NERDTree.You can indicate a file's git status, quickl
 Indicators
 ----------
 
-* ✭/* : Untracked
-* ✹/~ : Modified in the working tree
-* ✚/+ : Staged in the index (Exclude Renamed status)
-* ➜/» : Renamed
-* ═/= : Unmerged
-* ✖/- : Deleted (This indicator can't be shown, as NERDTree doesn't display deleted files. I have no prefect idea to solve this problem currently.)
-* ✗/× : Dirty (Only for directory)
-* ✔︎/ø : Clean (Only for directory)
+* `✭` / `*` : Untracked
+* `✹` / `~` : Modified in the working tree
+* `✚` / `+` : Staged in the index (Exclude Renamed status)
+* `➜` / `»` : Renamed
+* `═` / `=` : Unmerged
+* `✖` / `-` : Deleted (This indicator can't be shown, as NERDTree doesn't display deleted files. I have no prefect idea to solve this problem currently.)
+* `✗` / `×` : Dirty (Only for directory)
+* `✔` / `ø` : Clean (Only for directory)
 
 **Option** `let g:NERDTreeUseSimpleIndicator = 1` to show the simple indicator.
 
