@@ -148,7 +148,6 @@ function! plugin:NERDTreeGetCWDGitStatus()
     elseif g:NERDTreeCachedGitDirtyDir == {} && g:NERDTreeCachedGitFileStatus == {}
         return '[' . s:NERDTreeIndicatorMap["Clean"] . ']'
     endif
-    " return '[✗]'
     return '[' . s:NERDTreeIndicatorMap["Dirty"] . ']'
 endfunction
 
