@@ -34,27 +34,27 @@ if !exists('s:NERDTreeIndicatorMap')
     let s:NERDTreeIndicatorMap = {}
     if g:NERDTreeUseSimpleIndicator
         let s:NERDTreeIndicatorMap = {
-                    \ "Modified": "~",
-                    \ "Staged": "+",
-                    \ "Untracked": "*",
-                    \ "Renamed": "»",
-                    \ "Merged": "=",
-                    \ "Deleted": "-",
-                    \ "Dirty": "×",
-                    \ "Clean": "ø",
-                    \ "Unknown": "?"
+                    \ "Modified"  : "~",
+                    \ "Staged"    : "+",
+                    \ "Untracked" : "*",
+                    \ "Renamed"   : "»",
+                    \ "Unmerged"  : "=",
+                    \ "Deleted"   : "-",
+                    \ "Dirty"     : "×",
+                    \ "Clean"     : "ø",
+                    \ "Unknown"   : "?"
                     \ }
     else
         let s:NERDTreeIndicatorMap = {
-                    \ "Modified": "✹",
-                    \ "Staged": "✚",
-                    \ "Untracked": "✭",
-                    \ "Renamed": "➜",
-                    \ "Merged": "═",
-                    \ "Deleted": "✖",
-                    \ "Dirty": "✗",
-                    \ "Clean": "✔︎",
-                    \ "Unknown": "?"
+                    \ "Modified"  : "✹",
+                    \ "Staged"    : "✚",
+                    \ "Untracked" : "✭",
+                    \ "Renamed"   : "➜",
+                    \ "Unmerged"  : "═",
+                    \ "Deleted"   : "✖",
+                    \ "Dirty"     : "✗",
+                    \ "Clean"     : "✔︎",
+                    \ "Unknown"   : "?"
                     \ }
     endif
 endif
@@ -73,17 +73,17 @@ function! plugin:NERDTreeGitStatusRefresh()
     endif
 
     let root = b:NERDTreeRoot.path._str()
-    let statusStr = system("cd " . root . " && git status -s")
-    let statusSplit = split(statusStr, '\n')
-    if statusSplit != [] && statusSplit[0] =~# "fatal:.*"
-        let statusSplit = []
+    let statusesStr = system("cd " . root . " && git status -s")
+    let statusesSplit = split(statusesStr, '\n')
+    if statusesSplit != [] && statusesSplit[0] =~# "fatal:.*"
+        let statusesSplit = []
         return
     endif
     let s:NOT_A_GIT_REPOSITORY = 0
 
-    for status in statusSplit
+    for statusLine in statusesSplit
         " cache git status of files
-        let pathStr = substitute(status, '...', "", "")
+        let pathStr = substitute(statusLine, '...', "", "")
         let pathSplit = split(pathStr, ' -> ')
         if len(pathSplit) == 2
             call s:NERDTreeCacheDirtyDir(pathSplit[0])
@@ -95,8 +95,8 @@ function! plugin:NERDTreeGitStatusRefresh()
         if pathStr =~# '\.\./.*'
             continue
         endif
-        let indicator     = s:NERDTreeGetGitStatusIndicator(status[0], status[1])
-        let g:NERDTreeCachedGitFileStatus[fnameescape(pathStr)] = '[' . indicator . ']'
+        let statusKey     = s:NERDTreeGetFileGitStatusKey(statusLine[0], statusLine[1])
+        let g:NERDTreeCachedGitFileStatus[fnameescape(pathStr)] = statusKey
 
         call s:NERDTreeCacheDirtyDir(pathStr)
     endfor
@@ -112,7 +112,7 @@ function! s:NERDTreeCacheDirtyDir(pathStr)
     let dirtyPath = substitute(dirtyPath, '/[^/]*$', "/", "")
     let cwd = fnameescape('./')
     while dirtyPath =~# '.\+/.*' && has_key(g:NERDTreeCachedGitDirtyDir, fnameescape(dirtyPath)) == 0
-        let g:NERDTreeCachedGitDirtyDir[fnameescape(dirtyPath)] = '[' . s:NERDTreeIndicatorMap["Dirty"] . ']'
+        let g:NERDTreeCachedGitDirtyDir[fnameescape(dirtyPath)] = "Dirty"
         let dirtyPath = substitute(dirtyPath, '/[^/]*/$', "/", "")
     endwhile
 endfunction
@@ -134,10 +134,13 @@ function! plugin:NERDTreeGetGitStatusPrefix(path)
         let cwd = a:path.WinToUnixPath(cwd)
     endif
     let pathStr = substitute(pathStr, fnameescape(cwd), "", "")
+    let statusKey = ""
     if a:path.isDirectory
-        return get(g:NERDTreeCachedGitDirtyDir, fnameescape(pathStr . '/'), "")
+        let statusKey = get(g:NERDTreeCachedGitDirtyDir, fnameescape(pathStr . '/'), "")
+    else
+        let statusKey = get(g:NERDTreeCachedGitFileStatus, fnameescape(pathStr), "")
     endif
-    return get(g:NERDTreeCachedGitFileStatus, fnameescape(pathStr), "")
+    return s:NERDTreeGetIndicator(statusKey)
 endfunction
 
 " FUNCTION: plugin:NERDTreeGetCWDGitStatus() {{{2
@@ -146,26 +149,34 @@ function! plugin:NERDTreeGetCWDGitStatus()
     if s:NOT_A_GIT_REPOSITORY
         return ""
     elseif g:NERDTreeCachedGitDirtyDir == {} && g:NERDTreeCachedGitFileStatus == {}
-        return '[' . s:NERDTreeIndicatorMap["Clean"] . ']'
+        return s:NERDTreeGetIndicator("Clean")
     endif
-    return '[' . s:NERDTreeIndicatorMap["Dirty"] . ']'
+    return s:NERDTreeGetIndicator("Dirty")
 endfunction
 
-function! s:NERDTreeGetGitStatusIndicator(us, them)
+function! s:NERDTreeGetIndicator(statusKey)
+    let indicator = get(s:NERDTreeIndicatorMap, a:statusKey, "")
+    if indicator != ""
+        return '[' . indicator . ']'
+    endif
+    return ''
+endfunction
+
+function! s:NERDTreeGetFileGitStatusKey(us, them)
     if a:us == '?' && a:them == '?'
-        return s:NERDTreeIndicatorMap["Untracked"]
+        return "Untracked"
     elseif a:us == ' ' && a:them == 'M'
-        return s:NERDTreeIndicatorMap["Modified"]
+        return "Modified"
     elseif a:us =~# '[MAC]'
-        return s:NERDTreeIndicatorMap["Staged"]
+        return "Staged"
     elseif a:us == 'R'
-        return s:NERDTreeIndicatorMap["Renamed"]
+        return "Renamed"
     elseif a:us == 'U' || a:them == 'U' || a:us == 'A' && a:them == 'A' || a:us == 'D' && a:them == 'D'
-        return s:NERDTreeIndicatorMap["Merged"]
+        return "Unmerged"
     elseif a:them == 'D'
-        return s:NERDTreeIndicatorMap["Deleted"]
+        return "Deleted"
     else
-        return s:NERDTreeIndicatorMap["Unknown"]
+        return "Unknown"
     endif
 endfunction
 
