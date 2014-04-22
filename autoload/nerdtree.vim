@@ -448,6 +448,11 @@ function! nerdtree#dumpHelp()
         let @h=@h."\" ". g:NERDTreeMapPreviewVSplit .": preview vsplit\n"
 
         let @h=@h."\"\n\" ----------------------------\n"
+        let @h=@h."\" Git status mappings~\n"
+        let @h=@h."\" ". g:NERDTreeMapNextHunk . ": next hunk\n"
+        let @h=@h."\" ". g:NERDTreeMapPrevHunk . ": prev hunk\n"
+
+        let @h=@h."\"\n\" ----------------------------\n"
         let @h=@h."\" Directory node mappings~\n"
         let @h=@h."\" ". (g:NERDTreeMouseMode ==# 1 ? "double" : "single") ."-click,\n"
         let @h=@h."\" ". g:NERDTreeMapActivateNode .": open & close node\n"
