@@ -43,6 +43,11 @@ Status Refresh
 
 File modified, `stage` or `commit` actions through **vim-fugitive** plugin won't active the status refreshing, this is because that NERDTree itself doesn't support auto refreshing function. You should press `r` or `R` to refresh the tree view by yourself after these actions.
 
+Note
+----
+
+It's **NOT** a plugin of NERDTree, but an enhance version.
+
 More Info
 ---------
 
