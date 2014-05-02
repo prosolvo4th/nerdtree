@@ -207,7 +207,7 @@ function! s:Path.delete()
     if self.isDirectory
 
         let directoryTracked = system("git ls-files " . self.str() . " --error-unmatch")
-        if v:shell_error == 0
+        if g:NERDTreeUseGitToDelete == 1 && v:shell_error == 0
             let cmd = "git rm -r " . self.str({'escape': 1})
         else
             let cmd = g:NERDTreeRemoveDirCmd . self.str({'escape': 1})
@@ -219,7 +219,7 @@ function! s:Path.delete()
         endif
     else
         let fileTracked = system("git ls-files " . self.str() . " --error-unmatch")
-        if v:shell_error == 0
+        if g:NERDTreeUseGitToDelete == 1 && v:shell_error == 0
             let success = system("git rm " . self.str())
         else
             let success = delete(self.str())
@@ -538,7 +538,7 @@ function! s:Path.rename(newPath)
     endif
 
     let fileTracked = system("git ls-files " . self.str() . " --error-unmatch")
-    if v:shell_error == 0
+    if g:NERDTreeUseGitToMove == 1 && v:shell_error == 0
         let success = system("git mv " . self.str() . " " . a:newPath)
     else
         let success =  rename(self.str(), a:newPath)
