@@ -206,14 +206,24 @@ endfunction
 function! s:Path.delete()
     if self.isDirectory
 
-        let cmd = g:NERDTreeRemoveDirCmd . self.str({'escape': 1})
+        let directoryTracked = system("git ls-files " . self.str() . " --error-unmatch")
+        if v:shell_error == 0
+            let cmd = "git rm -r " . self.str({'escape': 1})
+        else
+            let cmd = g:NERDTreeRemoveDirCmd . self.str({'escape': 1})
+        end
         let success = system(cmd)
 
         if v:shell_error != 0
             throw "NERDTree.PathDeletionError: Could not delete directory: '" . self.str() . "'"
         endif
     else
-        let success = delete(self.str())
+        let fileTracked = system("git ls-files " . self.str() . " --error-unmatch")
+        if v:shell_error == 0
+            let success = system("git rm " . self.str())
+        else
+            let success = delete(self.str())
+        endif
         if success != 0
             throw "NERDTree.PathDeletionError: Could not delete file: '" . self.str() . "'"
         endif
