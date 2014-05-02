@@ -527,7 +527,12 @@ function! s:Path.rename(newPath)
         throw "NERDTree.InvalidArgumentsError: Invalid newPath for renaming = ". a:newPath
     endif
 
-    let success =  rename(self.str(), a:newPath)
+    let fileTracked = system("git ls-files " . self.str() . " --error-unmatch")
+    if v:shell_error == 0
+        let success = system("git mv " . self.str() . " " . a:newPath)
+    else
+        let success =  rename(self.str(), a:newPath)
+    endif
     if success != 0
         throw "NERDTree.PathRenameError: Could not rename: '" . self.str() . "'" . 'to:' . a:newPath
     endif
