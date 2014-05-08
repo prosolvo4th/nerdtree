@@ -698,6 +698,12 @@ NERD tree. These options should be set in your vimrc.
 |'g:NERDTreeUseSimpleIndicator'|
                                 Display simple git status indicator.
 
+|'g:NERDTreeUseGitToMove'|      Use 'git mv <src> <dst>' for tracked files
+                                and OS renaming otherwise
+
+|'g:NERDTreeUseGitToDelete'|    Use 'git rm <file>' for tracked files
+                                and OS deletion otherwise
+
 ------------------------------------------------------------------------------
 3.2. Customisation details                             *NERDTreeOptionDetails*
 
