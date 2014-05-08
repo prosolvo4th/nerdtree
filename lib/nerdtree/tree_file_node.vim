@@ -85,7 +85,7 @@ endfunction
 function! s:TreeFileNode.displayString()
     let ds = self.path.displayString()
     if g:NERDTreeShowGitStatus 
-        let ds = plugin:NERDTreeGetGitStatusPrefix(self.path) . ds
+        let ds = g:NERDTreeGetGitStatusPrefix(self.path) . ds
     endif
     return ds
 endfunction
