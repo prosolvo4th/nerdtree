@@ -67,9 +67,9 @@ if !exists('s:NERDTreeIndicatorMap')
     endif
 endif
 
-" FUNCTION: plugin:NERDTreeGitStatusRefresh() {{{2
+" FUNCTION: g:NERDTreeGitStatusRefresh() {{{2
 " refresh cached git status
-function! plugin:NERDTreeGitStatusRefresh()
+function! g:NERDTreeGitStatusRefresh()
     let g:NERDTreeCachedGitFileStatus = {}
     let g:NERDTreeCachedGitDirtyDir   = {}
     let s:NOT_A_GIT_REPOSITORY        = 1
@@ -131,10 +131,10 @@ function! s:NERDTreeTrimDoubleQuotes(pathStr)
     return toReturn
 endfunction
 
-" FUNCTION: plugin:NERDTreeGetGitStatusPrefix(path) {{{2
+" FUNCTION: g:NERDTreeGetGitStatusPrefix(path) {{{2
 " return the indicator of the path
 " Args: path
-function! plugin:NERDTreeGetGitStatusPrefix(path)
+function! g:NERDTreeGetGitStatusPrefix(path)
     let pathStr = a:path._str()
     let cwd = b:NERDTreeRoot.path._str() . a:path.Slash()
     if nerdtree#runningWindows()
@@ -151,9 +151,9 @@ function! plugin:NERDTreeGetGitStatusPrefix(path)
     return s:NERDTreeGetIndicator(statusKey)
 endfunction
 
-" FUNCTION: plugin:NERDTreeGetCWDGitStatus() {{{2
+" FUNCTION: s:NERDTreeGetCWDGitStatus() {{{2
 " return the indicator of cwd
-function! plugin:NERDTreeGetCWDGitStatus()
+function! g:NERDTreeGetCWDGitStatus()
     if s:NOT_A_GIT_REPOSITORY
         return ""
     elseif g:NERDTreeCachedGitDirtyDir == {} && g:NERDTreeCachedGitFileStatus == {}
