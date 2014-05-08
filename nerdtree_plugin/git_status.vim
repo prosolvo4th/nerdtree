@@ -30,6 +30,14 @@ if !exists('g:NERDTreeUseSimpleIndicator')
     let g:NERDTreeUseSimpleIndicator = 0
 endif
 
+if !exists("g:NERDTreeUseGitToMove")
+    let g:NERDTreeUseGitToMove = 1
+endif
+
+if !exists("g:NERDTreeUseGitToDelete")
+    let g:NERDTreeUseGitToDelete = 1
+endif
+
 if !exists('s:NERDTreeIndicatorMap')
     let s:NERDTreeIndicatorMap = {}
     if g:NERDTreeUseSimpleIndicator
