@@ -856,7 +856,13 @@ function! nerdtree#renderView()
     if g:NERDTreeShowGitStatus
         let headerStatus = g:NERDTreeGetCWDGitStatus()
     endif
-    let header = headerStatus . b:NERDTreeRoot.path.str({'format': 'UI', 'truncateTo': winwidth(0) - len(headerStatus) + 2})
+    if headerStatus == ""
+        let fix = 0
+    else
+        let fix = 3
+    endif
+    echomsg len(headerStatus)
+    let header = headerStatus . b:NERDTreeRoot.path.str({'format': 'UI', 'truncateTo': winwidth(0) - fix})
     call setline(line(".")+1, header)
     call cursor(line(".")+1, col("."))
 
