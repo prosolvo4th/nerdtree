@@ -861,7 +861,6 @@ function! nerdtree#renderView()
     else
         let fix = 3
     endif
-    echomsg len(headerStatus)
     let header = headerStatus . b:NERDTreeRoot.path.str({'format': 'UI', 'truncateTo': winwidth(0) - fix})
     call setline(line(".")+1, header)
     call cursor(line(".")+1, col("."))
