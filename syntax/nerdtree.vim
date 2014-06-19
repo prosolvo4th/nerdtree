@@ -58,7 +58,7 @@ syn match NERDTreeDir #[^-| `].*/# contains=NERDTreeLink,NERDTreeDirSlash,NERDTr
 syn match NERDTreeExecFile  #[|` ].*\*\($\| \)# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeGitStatus
 syn match NERDTreeFile  #|-.*# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeExecFile,NERDTreeGitStatus
 syn match NERDTreeFile  #`-.*# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeExecFile,NERDTreeGitStatus
-syn match NERDTreeCWD #^\(\[.\]\?\)[/|<].*$# contains=NERDTreeGitStatus
+syn match NERDTreeCWD #^\(\[.\]\)\?[/|<].*$# contains=NERDTreeGitStatus
 
 "highlighting for bookmarks
 syn match NERDTreeBookmark # {.*}#hs=s+1
