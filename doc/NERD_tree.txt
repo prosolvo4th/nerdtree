@@ -109,7 +109,7 @@ The following features and functionality are provided by the NERD tree:
 <
 :NERDTreeFromBookmark <bookmark>                       *:NERDTreeFromBookmark*
     Opens a fresh NERD tree with the root initialized to the dir for
-    <bookmark>.  This only reason to use this command over :NERDTree is for
+    <bookmark>.  The only reason to use this command over :NERDTree is for
     the completion (which is for bookmarks rather than directories).
 
 :NERDTreeToggle [<start-directory> | <bookmark>]             *:NERDTreeToggle*
@@ -638,6 +638,10 @@ NERD tree. These options should be set in your vimrc.
 |'NERDTreeCaseSensitiveSort'|   Tells the NERD tree whether to be case
                                 sensitive or not when sorting nodes.
 
+|'NERDTreeSortHiddenFirst'|     Tells the NERD tree whether to take the dot
+                                at the beginning of the hidden file names
+                                into account when sorting nodes.
+
 |'NERDTreeChDirMode'|           Tells the NERD tree if/when it should change
                                 vim's current working directory.
 
@@ -649,7 +653,12 @@ NERD tree. These options should be set in your vimrc.
 
 |'NERDTreeIgnore'|              Tells the NERD tree which files to ignore.
 
+|'NERDTreeRespectWildIgnore'|   Tells the NERD tree to respect |'wildignore'|.
+
 |'NERDTreeBookmarksFile'|       Where the bookmarks are stored.
+
+|'NERDTreeBookmarksSort'|       Whether the bookmarks list is sorted on
+                                display.
 
 |'NERDTreeMouseMode'|           Tells the NERD tree how to handle mouse
                                 clicks.
@@ -847,11 +856,26 @@ The file filters can be turned on and off dynamically with the |NERDTree-f|
 mapping.
 
 ------------------------------------------------------------------------------
+                                                *'NERDTreeRespectWildIgnore'*
+Values: 0 or 1.
+Default: 0.
+
+If set to 1, the |'wildignore'| setting is respected.
+
+------------------------------------------------------------------------------
                                                      *'NERDTreeBookmarksFile'*
 Values: a path
 Default: $HOME/.NERDTreeBookmarks
 
 This is where bookmarks are saved. See |NERDTreeBookmarkCommands|.
+
+------------------------------------------------------------------------------
+                                                     *'NERDTreeBookmarksSort'*
+Values: 0 or 1
+Default: 1
+
+If set to 0 then the bookmarks list is not sorted.
+If set to 1 the bookmarks list is sorted.
 
 ------------------------------------------------------------------------------
                                                        *'NERDTreeMouseMode'*
