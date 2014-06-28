@@ -1090,9 +1090,17 @@ function! s:closeCurrentDir(node)
     if parent ==# {} || parent.isRoot()
         call nerdtree#echo("cannot close tree root")
     else
-        call a:node.parent.close()
+        while g:NERDTreeCascadeOpenSingleChildDir && !parent.parent.isRoot()
+            if parent.parent.getVisibleChildCount() == 1
+                call parent.close()
+                let parent = parent.parent
+            else
+                break
+            endif
+        endwhile
+        call parent.close()
         call nerdtree#renderView()
-        call a:node.parent.putCursorHere(0, 0)
+        call parent.putCursorHere(0, 0)
     endif
 endfunction
 
