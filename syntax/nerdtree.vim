@@ -149,7 +149,8 @@ hi def link NERDTreeGitStatusAdded Function
 hi def link NERDTreeGitStatusDeleted Keyword
 hi def link NERDTreeGitStatusRenamed Title
 hi def link NERDTreeGitStatusUnmerged Label
-hi def link NERDTreeGitStatusUntracked Structure
+hi def link NERDTreeGitStatusUntracked Comment
+" hi def link NERDTreeGitStatusUntracked Structure
 hi def link NERDTreeGitStatusDirDirty Tag
 hi def link NERDTreeGitStatusDirClean Type
 hi def link NERDTreeGitStatus Number
