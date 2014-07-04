@@ -45,7 +45,6 @@ function! s:initVariable(var, value)
 endfunction
 
 "SECTION: Init variable calls and other random constants {{{2
-call s:initVariable("g:NERDChristmasTree", 1)
 call s:initVariable("g:NERDTreeAutoCenter", 1)
 call s:initVariable("g:NERDTreeAutoCenterThreshold", 3)
 call s:initVariable("g:NERDTreeCaseSensitiveSort", 0)
@@ -69,7 +68,7 @@ call s:initVariable("g:NERDTreeShowHidden", 0)
 call s:initVariable("g:NERDTreeShowLineNumbers", 0)
 call s:initVariable("g:NERDTreeSortDirs", 1)
 call s:initVariable("g:NERDTreeDirArrows", !nerdtree#runningWindows())
-call s:initVariable("g:NERDTreeCasadeOpenSingleChildDir", 1)
+call s:initVariable("g:NERDTreeCascadeOpenSingleChildDir", 1)
 
 if !exists("g:NERDTreeSortOrder")
     let g:NERDTreeSortOrder = ['\/$', '*', '\.swp$',  '\.bak$', '\~$']
