@@ -48,8 +48,8 @@ syn match NERDTreeHelp  #^".*# contains=NERDTreeHelpKey,NERDTreeHelpTitle,NERDTr
 
 "highlighting for sym links
 syn match NERDTreeLinkTarget #->.*# containedin=NERDTreeDir,NERDTreeFile
-syn match NERDTreeLinkFile #.* ->#me=e-3 containedin=NERDTreeFile,NERDTreeGitStatus
-syn match NERDTreeLinkDir #.*/ ->#me=e-3 containedin=NERDTreeDir,NERDTreeGitStatus
+syn match NERDTreeLinkFile #.* ->#me=e-3 containedin=NERDTreeFile contains=NERDTreeGitStatus
+syn match NERDTreeLinkDir #.*/ ->#me=e-3 containedin=NERDTreeDir
 
 "highlighing for directory nodes and file nodes
 syn match NERDTreeDirSlash #/# containedin=NERDTreeDir
