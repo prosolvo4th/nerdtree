@@ -1,5 +1,14 @@
-The NERD Tree
+The git-NERDTree
 =============
+
+Notice
+------
+
+This project **WILL NOT** be maintained any longer! 
+
+The new repo [nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin) does the same work and what's more it's not a fork version but a dependent plugin of NERDTree which means you should use it with NERDTree at the same time.
+
+Thank you for your attention.
 
 New Feature
 ----------
