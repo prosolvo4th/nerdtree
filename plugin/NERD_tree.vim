@@ -151,6 +151,7 @@ command! -n=0 -bar NERDTreeMirror call g:NERDTreeCreator.CreateMirror()
 command! -n=0 -bar NERDTreeFind call nerdtree#findAndRevealPath()
 command! -n=0 -bar NERDTreeFocus call NERDTreeFocus()
 command! -n=0 -bar NERDTreeCWD call NERDTreeCWD()
+command! -n=0 -bar NERDTreeRefreshRoot call nerdtree#RefreshRoot()
 " SECTION: Auto commands {{{1
 "============================================================
 augroup NERDTree

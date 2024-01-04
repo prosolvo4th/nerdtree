@@ -1326,6 +1326,10 @@ function! s:refreshRoot()
     call nerdtree#echo("Refreshing the root node. This could take a while... DONE")
 endfunction
 
+function nerdtree#RefreshRoot()
+    call s:refreshRoot()
+endfunction
+
 " FUNCTION: s:refreshCurrent(node) {{{2
 " refreshes the root for the current node
 function! s:refreshCurrent(node)
