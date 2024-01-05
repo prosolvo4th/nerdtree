@@ -1327,7 +1327,9 @@ function! s:refreshRoot()
 endfunction
 
 function nerdtree#RefreshRoot()
-    call s:refreshRoot()
+    if nerdtree#isTreeOpen()
+        call s:refreshRoot()
+    endif
 endfunction
 
 " FUNCTION: s:refreshCurrent(node) {{{2
